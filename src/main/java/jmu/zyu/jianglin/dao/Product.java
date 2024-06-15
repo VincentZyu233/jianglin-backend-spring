@@ -12,7 +12,7 @@ public class Product {
 
     @Lob
     @Column(name = "image_path", nullable = false)
-    private byte[] imagePath;
+    private String imagePath;
 
     @Column(name = "description")
     private String description;
@@ -24,9 +24,9 @@ public class Product {
 
     public void setId(Long id) {this.id = id;}
 
-    public byte[] getImagePath() {return imagePath;}
+    public String getImagePath() {return imagePath;}
 
-    public void setImagePath(byte[] imagePath) {this.imagePath = imagePath;}
+    public void setImagePath(String imagePath) {this.imagePath = imagePath;}
 
     public String getDescription() {
         return description;
