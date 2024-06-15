@@ -32,6 +32,9 @@ sudo systemctl daemon-reload
 sudo systemctl start jianglin
 sudo systemctl enable jianglin
 
+sudo journalctl -u jianglin --since "5 minutes ago" -f
+
+
 ````
 
 

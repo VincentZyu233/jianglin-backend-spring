@@ -43,6 +43,16 @@ public class FileUploadController {
             // 构建上传目标路径
             Path targetPath = Paths.get(uploadDir, finalFileName);
 
+            // 检查同级目录下是否有重名文件
+            File[] filesInFolder = folderPath.listFiles();
+            if (filesInFolder != null) {
+                for (File fileInFolder : filesInFolder) {
+                    if (fileInFolder.isFile() && fileInFolder.getName().equals(finalFileName)) {
+                        return Response.newFail("文件名重复，请重新命名文件。");
+                    }
+                }
+            }
+
             // 保存文件到服务器
             Files.copy(file.getInputStream(), targetPath);
 
