@@ -43,7 +43,7 @@ public class BannerServiceImpl implements BannerService {
         Banner bannerInDb = bannerRepository.findById(oldId)
                 .orElseThrow(() -> new IllegalArgumentException("id " + oldId + " does not exist"));
 
-        bannerInDb.setImageData(newBannerInfo.getImageData());
+        bannerInDb.setImagePath(newBannerInfo.getImagePath());
 
         bannerRepository.save(bannerInDb);
 

@@ -19,8 +19,8 @@ public class Banner {
     private String description;
 
     @Lob
-    @Column(name = "image_data", nullable = false)
-    private byte[] imageData;
+    @Column(name = "image_path", nullable = false)
+    private byte[] imagePath;
 
     @Column(name = "deleted")
     private boolean deleted = false;
@@ -49,14 +49,13 @@ public class Banner {
         this.description = description;
     }
 
-    public byte[] getImageData() {
-        return imageData;
+    public byte[] getImagePath() {
+        return imagePath;
     }
 
-    public void setImageData(byte[] imageData) {
-        this.imageData = imageData;
+    public void setImagePath(byte[] imagePath) {
+        this.imagePath = imagePath;
     }
-
 
     public boolean isDeleted() {return deleted;}
 

@@ -11,8 +11,8 @@ public class Product {
     private Long id;
 
     @Lob
-    @Column(name = "image_data", nullable = false)
-    private byte[] imageData;
+    @Column(name = "image_path", nullable = false)
+    private byte[] imagePath;
 
     @Column(name = "description")
     private String description;
@@ -24,9 +24,9 @@ public class Product {
 
     public void setId(Long id) {this.id = id;}
 
-    public byte[] getImageData() {return imageData;}
+    public byte[] getImagePath() {return imagePath;}
 
-    public void setImageData(byte[] imageData) {this.imageData = imageData;}
+    public void setImagePath(byte[] imagePath) {this.imagePath = imagePath;}
 
     public String getDescription() {
         return description;
