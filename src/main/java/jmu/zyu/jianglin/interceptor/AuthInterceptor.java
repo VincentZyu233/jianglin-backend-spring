@@ -17,7 +17,8 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String uri = request.getRequestURI();
+        return true;
+       /* String uri = request.getRequestURI();
         String method = request.getMethod();
 
         // Allow access to root and login pages
@@ -44,6 +45,6 @@ public class AuthInterceptor implements HandlerInterceptor {
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write("{\"message\":\"Request failed, no permission\"}");
 
-        return false;
+        return false;*/
     }
 }
