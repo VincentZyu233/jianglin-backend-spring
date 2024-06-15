@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin List</title>
+    <style lang="scss">
+        /* CSS styles for the table */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        table {
+            width: 90%;
+            border-collapse: collapse;
+            margin: 20px auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            overflow: hidden;
+
+			thead {
+			    background-color: #007bff; /* Changed color to #007bff */
+			    color: #fff;
+			}
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tbody tr:hover {
+            background-color: #dcdcdc;
+            transition: background-color 0.3s;
+        }
+
+        .deleted-row {
+            color: #888;
+            text-decoration: line-through;
+        }
+
+        .operation-button {
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            background-color: #007bff; /* Changed color to #007bff */
+            color: #fff;
+        }
+
+        .operation-button:hover {
+            background-color: #0056b3; /* Darker shade */
+        }
+
+        .operation-button:active {
+            transform: translateY(1px);
+        }
+    </style>
+
+    <style>
+        /* 实体卡片样式 */
+        #EntityCard {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50vw; /* 表格宽度为窗口宽度的一半 */
+            height: 50vh; /* 表格高度为窗口高度的一半 */
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+            display: none; /* 默认隐藏 */
+            z-index: 9999; /* 确保在顶层显示 */
+        }
+
+        /* 表格标题样式 */
+        #EntityTitle {
+            color: #007bff; /* 标题文字颜色 */
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        /* 幕布样式 */
+        #Curtain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* 半透明黑色背景 */
+            display: none; /* 默认隐藏 */
+            z-index: 8888; /* 幕布 z-index */
+        }
+
+        /* 关闭按钮样式 */
+        #closeEntityCardButton {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #007bff; /* 按钮背景色 */
+            border: none;
+            color: #fff; /* 按钮文字颜色 */
+            font-size: 20px; /* 按钮文字大小 */
+            cursor: pointer;
+            padding: 10px 20px; /* 按钮内边距 */
+            border-radius: 5px; /* 按钮圆角 */
+        }
+
+        /* 表格样式 */
+        #EntityCard table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #EntityCardHeadRow th:first-child {
+            background-color: #007bff; /* 第一列背景色为蓝色 */
+            color: #fff; /* 第一列文字颜色为白色 */
+        }
+
+        #EntityCardHeadRow th:last-child {
+            background-color: #f2f2f2; /* 第二列背景色为灰色 */
+            color: #000; /* 第二列文字颜色为黑色 */
+        }
+
+        #EntityCard th,
+        #EntityCard td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* 第一列样式 */
+        #EntityCard th:first-child,
+        #EntityCard td:first-child {
+            width: 33.33%; /* 第一列宽度为表格宽度的三分之一 */
+            background-color: #007bff; /* 第一列背景色为蓝色 */
+            color: #fff; /* 第一列文字颜色为白色 */
+        }
+
+        /* 第二列样式 */
+        #EntityCard th:last-child,
+        #EntityCard td:last-child {
+            width: 66.66%; /* 第二列宽度为表格宽度的三分之二 */
+            background-color: #f2f2f2; /* 第二列背景色为灰色 */
+            color: #000; /* 第二列文字颜色为黑色 */
+        }
+    </style>
+
+
+</head>
+<body>
+<h2 id="tableTitle">Table Name</h2>
+
+<table id="AddTable">
+    <thead>
+    <tr class="TableHeader">
+        <!-- Table headers will be populated here -->
+    </tr>
+    </thead>
+    <tbody class="TableBody" id="addTableBody">
+    <!-- Table data will be populated here -->
+    </tbody>
+</table>
+
+<input id="searchInput" type="text" />
+<button id="searchButton" onclick="loadTableRows()"> search </button>
+
+<table id="SearchTable">
+    <thead>
+    <tr class="TableHeader">
+        <!-- Table headers will be populated here -->
+    </tr>
+    </thead>
+    <tbody class="TableBody" id="searchTableBody">
+    <!-- Table data will be populated here -->
+    </tbody>
+</table>
+
+<div id="EntityCard">
+    <button id="closeEntityCardButton" onclick="hideCard()"> X </button>
+    <h1 id="EntityTitle"> Entity Title </h1>
+    <table id="EntityTable">
+        <thead id="EntityCardHeadRow">
+        <tr>
+            <th>Column Name</th>
+            <th>Data</th>
+        </tr>
+        </thead>
+        <tbody id="EntityCardBody">
+
+        </tbody>
+    </table>
+    <button id="updateButton" class="operation-button" onclick="onClickUpdateButton()">Update</button>
+</div>
+
+<div id="Curtain"></div>
+
+<script>
+    /* variables */
+    var tableName;
+    let tableInfo = [];
+    let rowsInfo = [];
+    var colNameMapping;
+
+    /* functions */
+    //把tableinfo和tablename在页面刚加载的时候加载好，这些东西是不会变的
+    document.addEventListener("DOMContentLoaded", function() {
+        getTableNameFromURL()
+        getTableInfo().then( ()=>{loadTableRows();} );
+    });
+
+    //这两个函数只会被调用一次，就是“DOMContentLoaded”事件
+    function getTableNameFromURL() {
+        const url = window.location.pathname;
+        const parts = url.split('/');
+        tableName = parts[parts.length - 1].toLowerCase(); // Last part of the URL should be the table name
+
+        console.log("tableName: " + tableName);
+        const title = document.getElementById("tableTitle");
+        title.innerText = "Table  " + "'" + tableName + "'" + "  Magagement";
+    }
+
+    function getTableInfo() {
+        return fetch(`/tableinfo/${tableName}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    tableInfo = data.data.tableInfo;
+                    console.log("tableinfo: ");
+                    console.log(tableInfo);
+                } else {
+                    throw new Error(data.errMsg);
+                }
+            });
+    }
+
+    //而tableinfo会经常变，所以这个函数会经常调用
+    function loadTableRows(){
+        getAllRows().then( ()=>{ displayTable() } ).then( ()=>{ console.log("load/reload TableRows is over."); } )
+            .catch( err => console.error('[Error]', err) );
+    }
+
+    // Function to fetch all rows information and store it in rowsInfo array
+    function getAllRows() {
+        return fetch(`/${tableName}/all`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    rowsInfo = data.data;
+
+                    const str = document.getElementById("searchInput").value.toLowerCase();
+                    if ( str.length>0 ){
+                        const filteredArray = rowsInfo.filter(obj => {
+                            // 检查每个对象的每个值是否包含子串
+                            return Object.values(obj).some(value => {
+                                return String(value).toLowerCase().includes(str);
+                            });
+                        });
+
+                        rowsInfo = [];
+                        rowsInfo = filteredArray;
+                    }
+
+                    console.log("rowsinfo: ");
+                    console.log(rowsInfo);
+
+                } else {
+                    throw new Error("[error] when fetching" + `/${tableName}/all ` + data.errMsg);
+                }
+            });
+    }
+
+    // Function to display table
+    function displayTable() {
+        const TableHeaders = document.getElementsByClassName('TableHeader');
+        for ( let TableHeader of TableHeaders ){
+            TableHeader.innerHTML = "";
+            tableInfo.forEach(column => {
+                const columnHeader = document.createElement('th');
+                columnHeader.textContent = column.COLUMN_NAME;
+                //console.log( "col name: ",  columnHeader.textContent );
+                TableHeader.appendChild(columnHeader);
+            });
+
+            const operationHeader = document.createElement('th');
+            operationHeader.textContent = "Operation";
+            TableHeader.appendChild(operationHeader);
+        }
+
+        const SearchTableBody = document.getElementById('searchTableBody');
+        SearchTableBody.innerHTML = "";
+        rowsInfo.forEach(row => {
+            displayRowsOfSearchTable(row);
+        });
+
+        const AddTableBody = document.getElementById('addTableBody');
+        AddTableBody.innerHTML = "";
+        displayRowOfAddTable();
+
+    }
+
+    function displayRowsOfSearchTable(row) {
+        const tableRow = document.createElement('tr');
+        for (let key in row) {
+            const cell = document.createElement('td');
+            cell.textContent = row[key];
+            tableRow.appendChild(cell);
+        }
+
+        if (row.deleted)
+            tableRow.classList.add("deleted-row");
+
+
+        const operationCell = document.createElement('td');
+        const operationButton = document.createElement('button');
+        operationButton.textContent = row.deleted ? "Recover" : "Delete";
+        // console.log( row.deleted, operationButton.textContent, row.id );
+        operationButton.className = "operation-button";
+        operationButton.onclick = () => {
+            changeRowDeletedStatus(tableName, row["id"], row.deleted);
+        };
+
+        const checkEntityButton = document.createElement('button');
+        checkEntityButton.textContent = "Check";
+        checkEntityButton.className = "operation-button";
+        checkEntityButton.addEventListener('click', () => {
+            showCard( row["id"] );
+        });
+
+        operationCell.appendChild(operationButton);
+        operationCell.appendChild(checkEntityButton);
+        tableRow.appendChild(operationCell);
+
+        const SearchTableBody = document.getElementById('searchTableBody');
+        SearchTableBody.appendChild(tableRow);
+    }
+
+    function displayRowOfAddTable() {
+        const tableRow = document.createElement('tr');
+        tableInfo.forEach(column => {
+            const columnData = document.createElement('td');
+
+            let inputElement;
+
+            if (column.DATA_TYPE === "enum") {
+                inputElement = document.createElement('select');
+                const enumValues = column.COLUMN_TYPE.match(/\(([^)]+)\)/)[1].split(',');
+                enumValues.forEach(value => {
+                    const option = document.createElement('option');
+                    option.value = value.replace(/'/g, '').trim();
+                    option.textContent = option.value;
+                    inputElement.appendChild(option);
+                });
+            } else if (column.DATA_TYPE === "date") {
+                inputElement = document.createElement('input');
+                inputElement.type = "date";
+            } else {
+                inputElement = document.createElement('input');
+                inputElement.type = "text";
+            }
+
+            if (column.COLUMN_NAME === "id") {
+                inputElement.disabled = true;
+                inputElement.value = "db auto increment";
+            } else if (column.COLUMN_NAME === "deleted") {
+                inputElement.disabled = true;
+                inputElement.value = "db default false";
+            }
+
+            inputElement.id = `${column.COLUMN_NAME}_input`;
+            inputElement.classList.add( 'addInfoInput' );
+            columnData.appendChild(inputElement);
+
+            tableRow.appendChild(columnData);
+        });
+
+        const operationCell = document.createElement('td');
+        const operationButton = document.createElement('button');
+        operationButton.textContent = "Add new";
+        //console.log( row.deleted, operationButton.textContent );
+        operationButton.className = "operation-button";
+        operationButton.onclick = () => {
+            const newEntity = {};
+            const inputs = document.querySelectorAll('.addInfoInput');
+            inputs.forEach(input => {
+                if (input.id !== 'id_input' && input.id !== 'deleted_input') {
+                    const key = input.id.replace('_input', '');
+                    newEntity[key] = input.value;
+                }
+            });
+            console.log("newEntity");
+            console.log(newEntity);
+            addNewEntity(newEntity);
+        };
+
+        operationCell.appendChild(operationButton);
+        tableRow.appendChild(operationCell);
+
+        // 获取addTableBody并添加新行
+        const addTableBody = document.getElementById('addTableBody');
+        addTableBody.appendChild(tableRow);
+    }
+
+
+    function changeRowDeletedStatus(tableName, id, deleted) {
+        const method = deleted ? 'PUT' : 'DELETE';
+        const url = deleted ? `/${tableName}/recover/${id}` : `/${tableName}/${id}`;
+
+        return fetch(url, { method: method })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`${deleted ? 'Recover' : 'Delete'} operation failed`);
+                }
+                loadTableRows(); // Reload table after adding student
+            });
+    }
+
+
+    function addNewEntity(newEntity) {
+        const url = `/${tableName}`;
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newEntity)
+        };
+
+
+        return fetch(url, options)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to add new Entity');
+                }
+                loadTableRows(); // Reload table after adding Entity
+            })
+            .catch(error => console.error('[Error]', error));
+    }
+
+    function updateEntity(oldId, newEntity){
+        const url = `/${tableName}/update/${oldId}`;
+        const options = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newEntity)
+        };
+
+
+        return fetch(url, options)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to update Entity');
+                }
+                loadTableRows(); // Reload table after adding Entity
+            })
+            .catch(error => console.error('[Error]', error));
+    }
+
+    function getEntity(id){
+        const url = `/${tableName}/${id}`;
+        const options = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        };
+
+
+        return fetch(url, options)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to update Entity');
+                }
+                return response.json();
+            })
+            .catch(error => console.error('[Error]', error));
+    }
+
+
+    function onClickUpdateButton() {
+        const tableBody = document.getElementById('EntityCardBody');
+        const entity = {}; // 创建一个空的 entity 对象
+        let id;
+
+        // 遍历表格行
+        tableBody.querySelectorAll('tr').forEach(row => {
+            const keyCell = row.querySelector('td:first-child'); // 获取第一个单元格，即键
+            const valueCell = row.querySelector('td:nth-child(2)'); // 获取第二个单元格，即值
+            const input = valueCell.querySelector('input');
+
+            const key = keyCell.textContent.trim(); // 获取键的文本内容
+            let value = input.value.trim(); // 获取输入框的值
+
+
+            // 如果键不是 'id' 或 'deleted'，则将键值对添加到 entity 对象中
+            if (key !== 'id' && key !== 'deleted') {
+                entity[key] = value; // 将键值对添加到 entity 对象中
+            }
+            if ( key == 'id')
+                id = value;
+        });
+
+        // console.log("collect entity: ");
+        // console.log(entity);
+        // console.log("collect id: ", id);
+        // return entity; // 返回构造的 entity 对象
+        updateEntity(id,entity).then( ()=>{showCard(id);} );
+
+    }
+
+
+    function showCard(id) {
+        const card = document.getElementById('EntityCard');
+        const curtain = document.getElementById('Curtain');
+        const tableBody = document.getElementById('EntityCardBody');
+
+        card.style.display = 'block';
+        curtain.style.display = 'block';
+
+        // 清空表格内容
+        tableBody.innerHTML = '';
+
+        getEntity(id).then(row=>{
+            console.log("id: ", id, "row: ");
+            console.log(row);
+            // 遍历 tableInfo 对象的属性
+            tableInfo.forEach(column => {
+                const columnName = column.COLUMN_NAME==="is_deleted" ? "deleted" : column.COLUMN_NAME  ;
+                const value = row.data[columnName];
+
+                const rowElement = document.createElement('tr');
+
+                const keyCell = document.createElement('td');
+                keyCell.textContent = columnName;
+                rowElement.appendChild(keyCell);
+
+                const valueCell = document.createElement('td');
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.value = value;
+
+                // 如果 COLUMN_NAME 是 id 或 deleted，则禁用文本框
+                if (columnName === 'id' || columnName === 'deleted') {
+                    input.disabled = true;
+                }
+
+                valueCell.appendChild(input);
+                rowElement.appendChild(valueCell);
+
+                tableBody.appendChild(rowElement);
+            });
+        })
+
+    }
+
+
+
+    function hideCard(){
+        const card = document.getElementById('EntityCard');
+        const curtain = document.getElementById('Curtain');
+
+        card.style.display = 'none';
+        curtain.style.display = 'none';
+    }
+
+
+
+</script>
+</body>
+</html>

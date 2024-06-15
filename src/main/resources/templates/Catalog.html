@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Catalog</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .card {
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h2 {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        th, td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .button {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="cardContainer">
+    <!-- Cards will be populated here -->
+</div>
+
+<script>
+    fetch('/tableinfo/all')
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        const cardContainer = document.getElementById('cardContainer');
+        data.data.slice(0, 7).forEach(table => {
+            const card = document.createElement('div');
+            card.classList.add('card');
+            const tableHtml = `
+                <h2>${table.tableName}</h2>
+                <table>
+                    <tr>
+                        <th>Column Name</th>
+                        <th>Data Type</th>
+                        <th>Max Length</th>
+                        <th>Nullable</th>
+                    </tr>
+                    ${table.tableInfo.map(column => `
+                        <tr>
+                            <td>${column.COLUMN_NAME}</td>
+                            <td>${column.DATA_TYPE}</td>
+                            <td>${column.CHARACTER_MAXIMUM_LENGTH || '-'}</td>
+                            <td>${column.IS_NULLABLE}</td>
+                        </tr>
+                    `).join('')}
+                </table>
+                <a href="/AdminList/${table.tableName}" class="button">View List</a> <!-- Changed href -->
+            `;
+            card.innerHTML = tableHtml;
+            cardContainer.appendChild(card);
+        });
+      })
+      .catch(error => console.error('Error fetching table info:', error));
+</script>
+</body>
+</html>
