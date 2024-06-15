@@ -15,20 +15,23 @@ import java.nio.file.Paths;
 @Controller
 public class FileUploadController {
 
-//    阿里云ubuntu下的data路径
+    // 阿里云ubuntu下的data路径
     private final String baseDir = "/data";
 
     @PostMapping("/upload")
     @ResponseBody
-    public Response<String> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam(value = "folder") String folder, @RequestParam(value = "fileName") String fileName) {
-
+    public Response<String> uploadFile(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam(value = "folder") String folder,
+            @RequestParam(value = "fileName") String fileName
+    ) {
         if (file.isEmpty()) {
             return Response.newFail("请选择一个文件进行上传。");
         }
 
         try {
             // 构建目标文件夹路径
-            String uploadDir = baseDir + File.separator + folder;
+            String uploadDir = baseDir + "/" + folder;
             File folderPath = new File(uploadDir);
             if (!folderPath.exists()) {
                 folderPath.mkdirs();  // 如果目录不存在，创建目录
@@ -38,16 +41,14 @@ public class FileUploadController {
             String finalFileName = fileName + "_" + file.getOriginalFilename();
 
             // 构建上传目标路径
-            Path targetPath = Paths.get(uploadDir + File.separator + finalFileName);
+            Path targetPath = Paths.get(uploadDir, finalFileName);
 
             // 保存文件到服务器
             Files.copy(file.getInputStream(), targetPath);
 
-//            String fileDownloadUri = "/download/" + folder + "/" + finalFileName;  // 根据需要返回文件的下载路径
-//            return ResponseEntity.ok().body("文件上传成功，文件下载链接: " + fileDownloadUri);
             return Response.newSuccess("文件上传成功");
         } catch (IOException e) {
-            return Response.newFail("上传失败。" + e.getMessage() );
+            return Response.newFail("上传失败。" + e.getMessage());
         }
     }
 }
