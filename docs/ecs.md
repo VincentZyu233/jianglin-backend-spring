@@ -13,20 +13,33 @@ java -version
 cd /data
 
 git clone https://gitee.com/vincent-zyu/jar-repo
+
 git fetch
 git merge origin/main
 
+# or
+git pull
+
 sudo cp /data/jar-repo/jianglin.service /etc/systemd/system/
-sudo cp /data/jar-repo/jianglin-0.0.2-SNAPSHOT.jar /etc/systemd/system/
+sudo cp /data/jar-repo/jianglin-0.0.5-SNAPSHOT.jar /etc/systemd/system/
+
+sudo rm -rf /etc/systemd/system/jianglin-0.0.4-SNAPSHOT.jar
 
 ls -l /etc/systemd/system/jianglin.service
-ls -l /etc/systemd/system/jianglin-0.0.2-SNAPSHOT.jar
-
-sudo rm -rf /etc/systemd/system/jianglin-0.0.1-SNAPSHOT.jar
-
+ls -l /etc/systemd/system/jianglin-0.0.5-SNAPSHOT.jar
 
 sudo systemctl daemon-reload
+sudo systemctl start jianglin
+sudo systemctl enable jianglin
 
+````
+
+
+
+### 系统服务指令
+
+```shell
+sudo systemctl daemon-reload
 
 # 启动服务
 sudo systemctl start jianglin

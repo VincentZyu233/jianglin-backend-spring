@@ -21,12 +21,17 @@ public class AuthInterceptor implements HandlerInterceptor {
         String method = request.getMethod();
 
         // Allow access to root and login pages
-        if ("/index".equals(uri) || "/login".equals(uri)) {
+        if ("/".equals(uri) || "/login".equals(uri)) {
+            System.out.println("ovo ok gogogogo");
             return true;
         }
 
         // Allow GET requests to paths starting with /product or /banner
-        if ((uri.startsWith("/product") || uri.startsWith("/banner")) && "GET".equalsIgnoreCase(method)) {
+        if ( uri.startsWith("/product")  && "GET".equalsIgnoreCase(method)) {
+            return true;
+        }
+
+        if ( uri.startsWith("/banner") && "GET".equalsIgnoreCase(method)) {
             return true;
         }
 

@@ -11,12 +11,9 @@ public class Banner {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
-
     @Lob
-    @Column(name = "description", columnDefinition = "LONGTEXT")
-    private String description;
+    @Column(name = "text", columnDefinition = "LONGTEXT")
+    private String text;
 
     @Lob
     @Column(name = "image_path", nullable = false)
@@ -33,25 +30,11 @@ public class Banner {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
+    public String getText() {return text;}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setText(String text) {this.text = text;}
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getImagePath() {
-        return imagePath;
-    }
+    public String getImagePath() {return imagePath;}
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
