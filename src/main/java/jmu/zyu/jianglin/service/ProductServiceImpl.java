@@ -44,7 +44,7 @@ public class ProductServiceImpl implements ProductService {
         Product productInDb = productRepository.findById(oldId).orElseThrow(() -> new IllegalArgumentException("id" + oldId + "does not exist"));
 
         productInDb.setDescription(newProductInfo.getDescription());
-        productInDb.setImageData(newProductInfo.getImageData());
+        productInDb.setImagePath(newProductInfo.getImagePath());
 
         productRepository.save(productInDb);
 
