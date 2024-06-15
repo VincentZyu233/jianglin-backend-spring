@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: jianglin_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: diding2014
+      MYSQL_DATABASE: jianglin
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: --character-set-server=utf8 --collation-server=utf8_general_ci
+
+volumes:
+  mysql-data:
