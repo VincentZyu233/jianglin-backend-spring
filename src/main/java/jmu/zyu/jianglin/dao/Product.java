@@ -23,6 +23,15 @@ public class Product {
     @Column(name = "deleted")
     private boolean deleted = false;
 
+    public Product(String name, String uploadFile) {
+        this.name = name;
+        this.imagePath = uploadFile;
+    }
+
+    public Product() {
+
+    }
+
     public Long getId() {return id;}
 
     public String getName() {return name;}

@@ -22,6 +22,15 @@ public class Banner {
     @Column(name = "deleted")
     private boolean deleted = false;
 
+    public Banner(String text, String imagePath) {
+        this.text = text;
+        this.imagePath = imagePath;
+    }
+
+    public Banner() {
+
+    }
+
     public Long getId() {
         return id;
     }

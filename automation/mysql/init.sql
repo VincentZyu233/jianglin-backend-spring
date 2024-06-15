@@ -12,5 +12,5 @@ CREATE TABLE product (
                          name VARCHAR(255) NOT NULL,
                          description LONGTEXT,
                          image_path VARCHAR(255) NOT NULL
-                         deleted BOOLEAN DEFAULT FALSE;
+                             deleted BOOLEAN DEFAULT FALSE;
 );
