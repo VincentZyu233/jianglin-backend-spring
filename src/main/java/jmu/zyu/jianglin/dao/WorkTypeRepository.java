@@ -7,19 +7,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface BannerRepository extends JpaRepository<Banner, Long> {
+public interface WorkTypeRepository extends JpaRepository<WorkType, Long> {
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE banner SET deleted = true WHERE id = :id", nativeQuery = true)
+    @Query(value = "UPDATE work_type SET deleted = true WHERE id = :id", nativeQuery = true)
     void deleteById(Long id);
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE banner SET deleted = false WHERE id = :id", nativeQuery = true)
+    @Query(value = "UPDATE work_type SET deleted = false WHERE id = :id", nativeQuery = true)
     void recoverById(Long id);
-
-    @Query(value = "SELECT image_path FROM banner WHERE id = :id", nativeQuery = true)
-    String findImagePathById(Long id);
 
 }

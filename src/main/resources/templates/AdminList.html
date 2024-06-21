@@ -161,6 +161,12 @@
             background-color: #f2f2f2; /* 第二列背景色为灰色 */
             color: #000; /* 第二列文字颜色为黑色 */
         }
+
+        #EntityImage{
+            height: 100px; /* 固定高度 */
+            width: auto; /* 宽度自动调整，保持长宽比 */
+            object-fit: cover; /* 保持长宽比，不会拉伸图片 */
+        }
     </style>
 
 
@@ -207,6 +213,9 @@
 
         </tbody>
     </table>
+
+    <img id="EntityImage" src="" alt="Entity Image">
+
     <button id="updateButton" class="operation-button" onclick="onClickUpdateButton()">Update</button>
 </div>
 
@@ -215,6 +224,7 @@
 <script>
     /* variables */
     var tableName;
+    var subDomain;
     let tableInfo = [];
     let rowsInfo = [];
     var colNameMapping;
@@ -222,7 +232,7 @@
     /* functions */
     //把tableinfo和tablename在页面刚加载的时候加载好，这些东西是不会变的
     document.addEventListener("DOMContentLoaded", function() {
-        getTableNameFromURL()
+        getTableNameFromURL();
         getTableInfo().then( ()=>{loadTableRows();} );
     });
 
@@ -235,6 +245,19 @@
         console.log("tableName: " + tableName);
         const title = document.getElementById("tableTitle");
         title.innerText = "Table  " + "'" + tableName + "'" + "  Magagement";
+
+        function getSubdomain(url) {
+            try {
+                const parsedUrl = new URL(url);
+                return parsedUrl.host + '/';
+            } catch (error) {
+                console.error('Invalid URL:', error);
+                return null;
+            }
+        }
+        
+        subDomain = getSubdomain(window.location);
+        console.log(subDomain); // 输出 "localhost:8080/"
     }
 
     function getTableInfo() {
@@ -253,17 +276,25 @@
 
     //而tableinfo会经常变，所以这个函数会经常调用
     function loadTableRows(){
-        getAllRows().then( ()=>{ displayTable() } ).then( ()=>{ console.log("load/reload TableRows is over."); } )
+        console.log("in loadTableRows()");
+        getAllRows()
+            //.then( ()=>{ console.log("after getAllRows(), rowsinfo: "); console.log(rowsInfo);} )
+            .then( ()=>{ displayTable(); } )
+            .then( ()=>{ console.log("load/reload TableRows is over."); } )
             .catch( err => console.error('[Error]', err) );
     }
 
     // Function to fetch all rows information and store it in rowsInfo array
     function getAllRows() {
+        console.log("in getAllRows()");
         return fetch(`/${tableName}/all`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    rowsInfo = data.data;
+            .then(response => {
+                const statusCode = response.status;
+                return response.json().then(data => ({ statusCode, data }));
+            })
+            .then(({ statusCode, data }) => {
+                if (statusCode == 200) {
+                    rowsInfo = data;
 
                     const str = document.getElementById("searchInput").value.toLowerCase();
                     if ( str.length>0 ){
@@ -282,13 +313,14 @@
                     console.log(rowsInfo);
 
                 } else {
-                    throw new Error("[error] when fetching" + `/${tableName}/all ` + data.errMsg);
+                    throw new Error("[error] when fetching: " + `/${tableName}/all `);
                 }
             });
     }
 
     // Function to display table
     function displayTable() {
+        console.log("in displayTable()");
         const TableHeaders = document.getElementsByClassName('TableHeader');
         for ( let TableHeader of TableHeaders ){
             TableHeader.innerHTML = "";
@@ -306,7 +338,12 @@
 
         const SearchTableBody = document.getElementById('searchTableBody');
         SearchTableBody.innerHTML = "";
+        //console.log("before rowsInfo.forEach(row => {");
+        //console.log("rowsinfo: ");
+        //console.log(rowsInfo);
         rowsInfo.forEach(row => {
+            //console.log("row:");
+            //console.log(row);
             displayRowsOfSearchTable(row);
         });
 
@@ -359,7 +396,10 @@
 
             let inputElement;
 
-            if (column.DATA_TYPE === "enum") {
+            if ( column.COLUMN_NAME === "image_path" ){
+                inputElement = document.createElement('input');
+                inputElement.type = "file";
+            }else if (column.DATA_TYPE === "enum") {
                 inputElement = document.createElement('select');
                 const enumValues = column.COLUMN_TYPE.match(/\(([^)]+)\)/)[1].split(',');
                 enumValues.forEach(value => {
@@ -402,7 +442,12 @@
             inputs.forEach(input => {
                 if (input.id !== 'id_input' && input.id !== 'deleted_input') {
                     const key = input.id.replace('_input', '');
-                    newEntity[key] = input.value;
+                    if (input.type === 'file') {
+                        const file = input.files[0];
+                        newEntity['file'] = file; // Store file object
+                    } else {
+                        newEntity[key] = input.value; // Store other input values
+                    }
                 }
             });
             console.log("newEntity");
@@ -425,34 +470,60 @@
 
         return fetch(url, { method: method })
             .then(response => {
-                if (!response.ok) {
-                    throw new Error(`${deleted ? 'Recover' : 'Delete'} operation failed`);
-                }
                 loadTableRows(); // Reload table after adding student
-            });
+            })
+            .catch(error =>{
+                console.error(`${deleted ? 'Recover' : 'Delete'} operation failed`)
+            })
     }
 
 
+    
     function addNewEntity(newEntity) {
-        const url = `/${tableName}`;
+        const url = `/${tableName}/upload`;
+        const formData = new FormData();
+        
+        console.log("newEntity: ");
+        console.log(newEntity);
+        
+        // Append non-file fields
+        Object.keys(newEntity).forEach(key => {
+            if (key !== 'file') {
+                formData.append(key, newEntity[key]);
+                console.log(key, "!!!",  newEntity[key]);
+            }
+        });
+        
+    
+
+        // Append file field if it exists
+        if (newEntity.file instanceof File) { // Ensure 'file' is a File object
+            formData.append('file', newEntity.file);
+            //console.log('file!!!', newEntity.file);
+        }
+
+        console.log("FormData: ");
+        console.log(formData);
+            
         const options = {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newEntity)
+            body: formData // FormData automatically sets correct Content-Type
         };
-
-
+    
         return fetch(url, options)
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Failed to add new Entity');
+                    throw new Error('Network response was not ok');
                 }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
                 loadTableRows(); // Reload table after adding Entity
             })
             .catch(error => console.error('[Error]', error));
     }
+    
 
     function updateEntity(oldId, newEntity){
         const url = `/${tableName}/update/${oldId}`;
@@ -545,7 +616,7 @@
             // 遍历 tableInfo 对象的属性
             tableInfo.forEach(column => {
                 const columnName = column.COLUMN_NAME==="is_deleted" ? "deleted" : column.COLUMN_NAME  ;
-                const value = row.data[columnName];
+                const value = row[columnName];
 
                 const rowElement = document.createElement('tr');
 
@@ -568,6 +639,11 @@
 
                 tableBody.appendChild(rowElement);
             });
+            
+
+
+            //document.getElementById('EntityImage').src = 'http://localhost:8080/banner/image/16'; {% endcomment %}
+            document.getElementById('EntityImage').src = "http://" + subDomain + `${tableName}/image/${row['id']}`
         })
 
     }

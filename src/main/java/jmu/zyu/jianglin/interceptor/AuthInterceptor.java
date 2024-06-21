@@ -17,8 +17,8 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        return true;
-       /* String uri = request.getRequestURI();
+//        return true;
+        String uri = request.getRequestURI();
         String method = request.getMethod();
 
         // Allow access to root and login pages
@@ -35,6 +35,14 @@ public class AuthInterceptor implements HandlerInterceptor {
         if ( uri.startsWith("/banner") && "GET".equalsIgnoreCase(method)) {
             return true;
         }
+        if ( uri.startsWith("/work") && "GET".equalsIgnoreCase(method)) {
+            return true;
+        }
+
+        if ( uri.startsWith("/work_type") && "GET".equalsIgnoreCase(method)) {
+            return true;
+        }
+
 
         // Allow access to admin users
         if (userService.isAdmin(request.getSession())) {
@@ -45,6 +53,6 @@ public class AuthInterceptor implements HandlerInterceptor {
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write("{\"message\":\"Request failed, no permission\"}");
 
-        return false;*/
+        return false;
     }
 }

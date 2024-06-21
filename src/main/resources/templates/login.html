@@ -56,12 +56,23 @@
         }
     </style>
 </head>
-<div id="container">
-    <h1>Admin Login</h1>
-    <form action="/login" method="post">
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <button type="submit">Login</button>
-    </form>
-</div>
+
+<body>
+    <img id="bannerImage" src="" alt="Banner Image">
+
+    <div id="container">
+        <h1>Admin Login</h1>
+        <form action="/login" method="post">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('bannerImage').src = 'http://localhost:8080/banner/image/16';
+    </script>
+
+</body>
+
 </html>

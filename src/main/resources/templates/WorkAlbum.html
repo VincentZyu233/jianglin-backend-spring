@@ -1,0 +1,233 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Vue 3 Local File Example</title>  
+<style lang="scss">
+    body, html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #f0f0f0;
+    }
+    
+    .app {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .debug {
+        border: 1px solid #dc3545;
+        padding: 10px;
+        margin-top: 20px;
+        background-color: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+    }
+    
+    .showAlbum {
+        border: 1px solid #007bff;
+        margin-top: 20px;
+        padding: 20px;
+        width: 80%;
+        background-color: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+		
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		
+		.title {
+		    padding: 10px;
+		    margin-bottom: 20px;
+		    width: 100%;
+		    font-size: 24px;
+		    text-align: left;
+		    color: #000000;
+		    border-radius: 5px;
+		}
+		
+		.grey-line {
+			width: 90%;
+		    border: 1px solid #ccc; /* 灰色边框，可以根据需求调整粗细 */
+		    margin: 10rpx 10rpx; /* 可选的上下边距 */
+		}
+		
+		.albumEntry {
+		    border: 1px solid #ced4da;
+		    margin-top: 20px;
+		    width: 90%;
+		    padding: 10px;
+		    border-radius: 10px;
+		    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		    position: relative;
+		    display: flex;
+		    align-items: center;
+			
+			.colorBlock {
+			    position: absolute;
+			    left: 0;
+			    height: 100%;
+			    width: 10px;
+			    background-color: #007bff;
+			    border-top-left-radius: 10px;
+			    border-bottom-left-radius: 10px;
+			}
+			
+			.info {
+			    width: calc(100% - 10px);
+			    padding: 10px;
+			    white-space: nowrap;
+			    display: flex;
+			    flex-direction: column;
+			    justify-content: center;
+			    align-items: flex-start;
+				
+				
+				.row {
+				    display: flex;
+				    margin-bottom: 5px;
+				}
+				
+				.key {
+				    font-weight: bold;
+				    margin-right: 10px;
+				}
+				
+				.value {
+				    color: #555;
+				}
+			}
+			
+			.manage {
+				width: 50px;
+			    padding: 8px 12px;
+			    background-color: #007bff;
+				text-align: center;
+			    color: #fff;
+			    border-radius: 5px;
+			    cursor: pointer;
+			    margin-left: auto;
+			    transition: background-color 0.3s ease;
+			}
+			
+			.manage:hover {
+			    background-color: #0056b3;
+			}
+			
+		}
+		
+		
+    }
+
+</style>
+
+</head>  
+<body>  
+
+<!-- Vue应用的挂载点 -->  
+<div class="app" id="app">  
+
+	<view class="debug">
+		{{ message }}
+		<button @click="increment">Increment</button>
+	</view>
+
+	<view class="showAlbum">
+		<view class="title">
+			作品集相册管理
+		</view>
+		
+		<hr class="grey-line">
+		
+		<view class="albumEntry" v-for="item in AlbumTypeList">
+			<view class="colorBlock">
+				
+			</view>
+			<view class="info">
+				<!-- {{item}} -->
+				<view class="row">
+					<view class="key"> 相册编号: </view>
+					<view class="value"> {{item.id}} </view>
+				</view>
+				<view class="row">
+					<view class="key"> 分类名称: </view>
+					<view class="value"> {{item.category_name}} </view>
+				</view>
+				<view class="row">
+					<view class="key"> 分类备注: </view>
+					<view class="value"> {{item.category_description}} </view>
+				</view>
+			</view>
+			<view class="manage" @click="openNewTab(item.id)">
+				管理
+			</view>
+		</view>
+		
+	</view>
+
+
+</div>  
+
+<!-- 引入Vue 3的CDN文件 -->  
+ <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+<!--<script src="../static/vue.js"></script>-->
+<!-- <script src="vue"></script> -->
+
+<script>  
+	const { ref, createApp, onMounted } = Vue;
+
+	const app = createApp({
+		setup() {
+			const message = ref('Hello Vue 3!');
+			const counter = ref(0);
+			const AlbumTypeList = ref([]);
+
+			function increment() {
+				counter.value++;
+				message.value = `Counter: ${counter.value}`;
+			}
+
+			const getAlbumTypeList = async function(){
+				fetch('work_type/all')
+					.then(response => response.json())
+					.then(data => {
+						console.log("work_type all: ", data);
+						AlbumTypeList.value = data;
+					});
+			}
+			
+			const openNewTab = function(id){
+				url = `/manageAlbum/${id}`;
+				window.open(url, '_blank');
+			}
+
+			// 在页面加载时调用getAlbumTypeList函数
+			onMounted(()=>{
+				getAlbumTypeList();
+			});
+
+			return {
+				message,
+				increment,
+				AlbumTypeList,
+				openNewTab
+			};
+		}
+	});
+
+app.mount('#app');
+
+</script>  
+
+</body>  
+</html>

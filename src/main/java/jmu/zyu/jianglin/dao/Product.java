@@ -13,19 +13,20 @@ public class Product {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "description")
+    private String description;
+
     @Lob
     @Column(name = "image_path", nullable = false)
     private String imagePath;
 
-    @Column(name = "description")
-    private String description;
-
     @Column(name = "deleted")
     private boolean deleted = false;
 
-    public Product(String name, String uploadFile) {
+    public Product(String name, String uploadFile, String description) {
         this.name = name;
         this.imagePath = uploadFile;
+        this.description = description;
     }
 
     public Product() {

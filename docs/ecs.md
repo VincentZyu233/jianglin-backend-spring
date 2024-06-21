@@ -21,19 +21,42 @@ git merge origin/main
 git pull
 
 sudo cp /data/jar-repo/jianglin.service /etc/systemd/system/
-sudo cp /data/jar-repo/jianglin-0.0.5-SNAPSHOT.jar /etc/systemd/system/
+sudo cp /data/jar-repo/jianglin-0.0.8-SNAPSHOT.jar /etc/systemd/system/
 
-sudo rm -rf /etc/systemd/system/jianglin-0.0.4-SNAPSHOT.jar
+sudo vim /etc/systemd/system/jianglin.service
+
+sudo rm -rf /etc/systemd/system/jianglin-0.0.6-SNAPSHOT.jar
 
 ls -l /etc/systemd/system/jianglin.service
-ls -l /etc/systemd/system/jianglin-0.0.5-SNAPSHOT.jar
+ls -l /etc/systemd/system/jianglin-0.0.6-SNAPSHOT.jar
 
 sudo systemctl daemon-reload
 sudo systemctl start jianglin
 sudo systemctl enable jianglin
 
-````
+sudo journalctl -u jianglin --since "1 minutes ago" -f
+sudo journalctl -u jianglin --since "5 minutes ago" -f
 
+sudo systemctl start mysql
+sudo systemctl restart jianglin
+sudo systemctl status mysql
+
+sudo find /etc/mysql/ -name "mysqld.cnf"
+sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf
+sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf
+
+mysql -u root -p
+
+```
+
+```sql
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'diding2014' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
+SHOW VARIABLES LIKE 'bind_address';
+SHOW VARIABLES LIKE 'port';
+
+```
 
 
 ### 系统服务指令

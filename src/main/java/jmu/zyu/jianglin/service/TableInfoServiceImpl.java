@@ -32,7 +32,7 @@ public class TableInfoServiceImpl implements TableInfoService {
     // 这里定义一个示例方法，用于获取所有表名
     private List<String> getAllTableNames() {
         // 这里可以根据具体情况查询数据库获取所有表名，这里只是示例，返回一个固定的列表
-        return List.of("product", "banner");
+        return List.of("product", "banner", "work_type", "work");
     }
 
 }

@@ -11,20 +11,19 @@ public class Banner {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Lob
+
     @Column(name = "text", columnDefinition = "LONGTEXT")
     private String text;
 
-    @Lob
     @Column(name = "image_path", nullable = false)
-    private String imagePath;
+    private String image_path;
 
     @Column(name = "deleted")
     private boolean deleted = false;
 
-    public Banner(String text, String imagePath) {
+    public Banner(String text, String image_path) {
         this.text = text;
-        this.imagePath = imagePath;
+        this.image_path = image_path;
     }
 
     public Banner() {
@@ -43,11 +42,9 @@ public class Banner {
 
     public void setText(String text) {this.text = text;}
 
-    public String getImagePath() {return imagePath;}
+    public String getImage_path() {return image_path;}
 
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
+    public void setImage_path(String image_path) {this.image_path = image_path;}
 
     public boolean isDeleted() {return deleted;}
 

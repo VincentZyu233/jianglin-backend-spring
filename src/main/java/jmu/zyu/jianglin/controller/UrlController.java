@@ -54,5 +54,11 @@ public class UrlController {
     @GetMapping("/testUpload")
     public String testUpload() { return "testUpload"; }
 
+    @GetMapping("/WorkAlbum")
+    public String WorkAlbum() { return "WorkAlbum"; }
+
+    @GetMapping("/vue")
+    public String vue() { return "vue.js"; }
+
 
 }

@@ -2,8 +2,11 @@ package jmu.zyu.jianglin.controller;
 
 import jmu.zyu.jianglin.dao.Banner;
 import jmu.zyu.jianglin.service.BannerService;
-import jmu.zyu.jianglin.service.FileUploadService;
+import jmu.zyu.jianglin.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +23,7 @@ public class BannerController {
     BannerService bannerService;
 
     @Autowired
-    FileUploadService uploadService;
+    FileService fileService;
 
     @PostMapping("/upload")
     @ResponseBody
@@ -33,7 +36,7 @@ public class BannerController {
         }
 
         try {
-            String uploadFile = uploadService.uploadFile(file, text, true);
+            String uploadFile = fileService.uploadFile(file, text, true);
             Banner banner = new Banner(text, uploadFile);
             bannerService.addNewBanner(banner);
             return ResponseEntity.ok(banner);
@@ -47,6 +50,23 @@ public class BannerController {
     @ResponseBody
     public ResponseEntity<Banner> getBannerById(@PathVariable Long id){
         return ResponseEntity.ok(bannerService.getBannerById(id));
+    }
+
+    @GetMapping("/image/{id}")
+    @ResponseBody
+    public ResponseEntity<?> getBannerImageById(@PathVariable Long id) throws IOException {
+
+            System.out.println("ovo1 in getBannerImageById(): getBannerImagePathById(id)" + bannerService.getBannerImagePathById(id).toString() );
+
+            byte[] imageBytes = fileService.getImageByteArray(bannerService.getBannerImagePathById(id));
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.IMAGE_JPEG);
+            headers.setContentLength(imageBytes.length);
+
+            // 返回包含图片字节数组的 ResponseEntity
+            return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
+
     }
 
     @GetMapping("/all")
@@ -73,9 +93,12 @@ public class BannerController {
         bannerService.recoverBannerById(id);
     }
 
-    @PutMapping("/banner/update/{id}")
+    @PutMapping("/update/{id}")
     @ResponseBody
     public ResponseEntity<Long> updateBannerById(@PathVariable Long id, @RequestBody Banner newBannerInfo){
         return ResponseEntity.ok(bannerService.updateBannerById(id, newBannerInfo));
     }
+
+
+
 }

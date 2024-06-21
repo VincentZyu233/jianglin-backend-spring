@@ -19,6 +19,24 @@ CREATE TABLE product (
   deleted BOOLEAN DEFAULT FALSE;
 );
 
+-- 创建产品分类表 type
+CREATE TABLE type (
+  id INT AUTO_INCREMENT PRIMARY KEY, -- 分类ID，自增主键
+  category_name VARCHAR(255) NOT NULL, -- 分类名
+  category_description TEXT -- 分类描述
+  deleted BOOLEAN DEFAULT FALSE;
+);
+
+-- 创建产品表 work
+CREATE TABLE work (
+  id INT AUTO_INCREMENT PRIMARY KEY, -- 产品ID，自增主键
+  work_name VARCHAR(255) NOT NULL, -- 产品名
+  work_image_url VARCHAR(255), -- 产品图片URL
+  type_id INT, FOREIGN KEY (type_id) REFERENCES type(id) -- 设置外键，引用分类表的ID
+  deleted BOOLEAN DEFAULT FALSE;
+);
+
+
 -- 插入 banner 表数据
 INSERT INTO banner (image_path, text) VALUES 
   ('/path/to/images/banner1.gif', 'Banner Text 1'),

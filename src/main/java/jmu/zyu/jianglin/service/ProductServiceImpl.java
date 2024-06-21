@@ -20,6 +20,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public String getProductImagePathById(Long id) {
+        return productRepository.findImagePathById(id);
+    }
+
+
+    @Override
     public List<Product> getProductList() {
         return productRepository.findAll();
     }

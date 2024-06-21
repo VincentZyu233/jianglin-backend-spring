@@ -24,6 +24,9 @@ public class BannerServiceImpl implements BannerService {
     }
 
     @Override
+    public String getBannerImagePathById(Long id){ return bannerRepository.findImagePathById(id); }
+
+    @Override
     public Long addNewBanner(Banner banner) {
         return bannerRepository.save(banner).getId();
     }
@@ -44,7 +47,7 @@ public class BannerServiceImpl implements BannerService {
                 .orElseThrow(() -> new IllegalArgumentException("id " + oldId + " does not exist"));
 
         bannerInDb.setText(newBannerInfo.getText());
-        bannerInDb.setImagePath(newBannerInfo.getImagePath());
+        bannerInDb.setImage_path(newBannerInfo.getImage_path());
 
         bannerRepository.save(bannerInDb);
 
