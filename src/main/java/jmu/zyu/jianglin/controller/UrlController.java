@@ -57,8 +57,8 @@ public class UrlController {
     @GetMapping("/WorkAlbum")
     public String WorkAlbum() { return "WorkAlbum"; }
 
-    @GetMapping("/vue")
-    public String vue() { return "vue.js"; }
+    @GetMapping("/manageAlbum/{typeid}")
+    public String manageAlbum(){ return "manageAlbum"; }
 
 
 }

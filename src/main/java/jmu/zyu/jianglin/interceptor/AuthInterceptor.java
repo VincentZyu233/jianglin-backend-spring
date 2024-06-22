@@ -17,42 +17,42 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-//        return true;
-        String uri = request.getRequestURI();
-        String method = request.getMethod();
-
-        // Allow access to root and login pages
-        if ("/".equals(uri) || "/login".equals(uri)) {
-            System.out.println("ovo ok gogogogo");
-            return true;
-        }
-
-        // Allow GET requests to paths starting with /product or /banner
-        if ( uri.startsWith("/product")  && "GET".equalsIgnoreCase(method)) {
-            return true;
-        }
-
-        if ( uri.startsWith("/banner") && "GET".equalsIgnoreCase(method)) {
-            return true;
-        }
-        if ( uri.startsWith("/work") && "GET".equalsIgnoreCase(method)) {
-            return true;
-        }
-
-        if ( uri.startsWith("/work_type") && "GET".equalsIgnoreCase(method)) {
-            return true;
-        }
-
-
-        // Allow access to admin users
-        if (userService.isAdmin(request.getSession())) {
-            return true;
-        }
-
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write("{\"message\":\"Request failed, no permission\"}");
-
-        return false;
+        return true;
+//        String uri = request.getRequestURI();
+//        String method = request.getMethod();
+//
+//        // Allow access to root and login pages
+//        if ("/".equals(uri) || "/login".equals(uri)) {
+//            System.out.println("ovo ok gogogogo");
+//            return true;
+//        }
+//
+//        // Allow GET requests to paths starting with /product or /banner
+//        if ( uri.startsWith("/product")  && "GET".equalsIgnoreCase(method)) {
+//            return true;
+//        }
+//
+//        if ( uri.startsWith("/banner") && "GET".equalsIgnoreCase(method)) {
+//            return true;
+//        }
+//        if ( uri.startsWith("/work") && "GET".equalsIgnoreCase(method)) {
+//            return true;
+//        }
+//
+//        if ( uri.startsWith("/work_type") && "GET".equalsIgnoreCase(method)) {
+//            return true;
+//        }
+//
+//
+//        // Allow access to admin users
+//        if (userService.isAdmin(request.getSession())) {
+//            return true;
+//        }
+//
+//        response.setContentType("application/json");
+//        response.setCharacterEncoding("UTF-8");
+//        response.getWriter().write("{\"message\":\"Request failed, no permission\"}");
+//
+//        return false;
     }
 }

@@ -5,130 +5,303 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <title>Vue 3 Local File Example</title>  
 <style lang="scss">
-    body, html {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        font-family: Arial, Helvetica, sans-serif;
-        background-color: #f0f0f0;
-    }
-    
-    .app {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .debug {
-        border: 1px solid #dc3545;
-        padding: 10px;
-        margin-top: 20px;
-        background-color: #fff;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        border-radius: 5px;
-    }
-    
-    .showAlbum {
-        border: 1px solid #007bff;
-        margin-top: 20px;
-        padding: 20px;
-        width: 80%;
-        background-color: #fff;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
-		
+	body, html {
+		margin: 0;
+		padding: 0;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		font-family: Arial, Helvetica, sans-serif;
+		background-color: #f0f0f0;
+	}
+
+	.app {
+		width: 100%;
+		height: 100%;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		
-		.title {
-		    padding: 10px;
-		    margin-bottom: 20px;
-		    width: 100%;
-		    font-size: 24px;
-		    text-align: left;
-		    color: #000000;
-		    border-radius: 5px;
-		}
-		
-		.grey-line {
-			width: 90%;
-		    border: 1px solid #ccc; /* 灰色边框，可以根据需求调整粗细 */
-		    margin: 10rpx 10rpx; /* 可选的上下边距 */
-		}
-		
-		.albumEntry {
-		    border: 1px solid #ced4da;
-		    margin-top: 20px;
-		    width: 90%;
-		    padding: 10px;
-		    border-radius: 10px;
-		    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-		    position: relative;
-		    display: flex;
-		    align-items: center;
-			
-			.colorBlock {
-			    position: absolute;
-			    left: 0;
-			    height: 100%;
-			    width: 10px;
-			    background-color: #007bff;
-			    border-top-left-radius: 10px;
-			    border-bottom-left-radius: 10px;
-			}
-			
-			.info {
-			    width: calc(100% - 10px);
-			    padding: 10px;
-			    white-space: nowrap;
-			    display: flex;
-			    flex-direction: column;
-			    justify-content: center;
-			    align-items: flex-start;
-				
-				
-				.row {
-				    display: flex;
-				    margin-bottom: 5px;
-				}
-				
-				.key {
-				    font-weight: bold;
-				    margin-right: 10px;
-				}
-				
-				.value {
-				    color: #555;
-				}
-			}
-			
-			.manage {
-				width: 50px;
-			    padding: 8px 12px;
-			    background-color: #007bff;
-				text-align: center;
-			    color: #fff;
-			    border-radius: 5px;
-			    cursor: pointer;
-			    margin-left: auto;
-			    transition: background-color 0.3s ease;
-			}
-			
-			.manage:hover {
-			    background-color: #0056b3;
-			}
-			
-		}
-		
-		
-    }
+		padding: 20px;
+	}
 
+	.debug {
+		border: 1px solid #dc3545;
+		padding: 10px;
+		margin-top: 20px;
+		background-color: #fff;
+		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+		border-radius: 5px;
+	}
+
+	.filterArea {
+		display: flex;
+		gap: 10px;
+		margin: 20px 0;
+	}
+
+	.filterArea input, .filterArea button {
+		padding: 10px;
+		border: 1px solid #ced4da;
+		border-radius: 5px;
+		font-size: 16px;
+	}
+
+	.filterArea button {
+		background-color: #007bff;
+		color: white;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+	}
+
+	.filterArea button:hover {
+		background-color: #0056b3;
+	}
+
+	.showAlbum {
+		border: 1px solid #007bff;
+		margin-top: 20px;
+		padding: 20px;
+		width: 80%;
+		background-color: #fff;
+		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+		border-radius: 10px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.showAlbum .title {
+		padding: 10px;
+		margin-bottom: 20px;
+		width: 100%;
+		font-size: 24px;
+		text-align: left;
+		color: #000000;
+		border-radius: 5px;
+	}
+
+	.showAlbum .grey-line {
+		width: 90%;
+		border: 1px solid #ccc; 
+		margin: 10px 0; 
+	}
+
+	.addArea.fold {
+		height: 0;
+		border-radius: 2px;
+		opacity: 0;
+		filter: blur(10px);
+		transition: 1s;
+	}
+
+	.addArea {
+		border: 1px solid #ced4da;
+		margin-top: 20px;
+		width: 90%;
+		padding: 10px;
+		border-radius: 10px;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		background: white;
+		padding: 20px;
+		max-width: 500px;
+		box-sizing: border-box;
+		
+		display: flex;
+		flex-direction: column;
+		position: relative;
+		align-items: center;
+		justify-content: center;
+
+		transition: 1s;
+		
+		
+		input[type="text"] {
+		    width: 100%;
+		    padding: 10px;
+		    margin: 10px 0;
+		    border: 1px solid #ddd;
+		    border-radius: 4px;
+		    box-sizing: border-box;
+		    transition: border-color 0.3s;
+		}
+		
+		input[type="text"]:focus {
+		    border-color: #007bff;
+		    outline: none;
+		}
+		
+		.addNewAlbum {
+		    width: 100%;
+		    padding: 10px;
+		    background-color: #007bff;
+		    color: white;
+		    border: none;
+		    border-radius: 4px;
+		    cursor: pointer;
+		    transition: background-color 0.3s;
+		    box-sizing: border-box;
+		    font-size: 16px;
+		}
+		
+		.addNewAlbum:hover {
+		    background-color: #007bff;
+		}
+		
+		.addNewAlbum:active {
+		    background-color: #007bff;
+		}
+		
+	}
+	
+	
+
+
+	.albumEntry {
+		border: 1px solid #ced4da;
+		margin-top: 20px;
+		width: 90%;
+		padding: 10px;
+		border-radius: 10px;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		position: relative;
+		display: flex;
+		align-items: center;
+	}
+
+	.albumEntry .colorBlock {
+		position: absolute;
+		left: 0;
+		height: 100%;
+		width: 10px;
+		background-color: #007bff;
+		border-top-left-radius: 10px;
+		border-bottom-left-radius: 10px;
+	}
+
+	.albumEntry .info {
+		width: calc(100% - 100px);
+		padding: 5px 10px;
+		/* white-space: nowrap; */
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		align-items: left;
+	}
+
+	.albumEntry .info .row {
+		/* display: flex; */
+		margin-bottom: 0;
+		
+		.key {
+			font-weight: bold;
+			margin-right: 5px;
+		}
+		.value {
+			color: #555;
+			word-wrap: break-word; /* 允许长单词换行 */
+			overflow-wrap: break-word; /* 标准化的换行方式 */
+			white-space: normal; /* 允许文本在空格或换行符处换行 */
+			/* flex: 1; */
+		}
+	}
+
+	.albumEntry .info.deleted .row {
+		color: grey;
+		text-decoration: line-through;
+	}
+
+	.albumEntry .operationArea {
+		width: 100px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 10px;
+	}
+
+	.albumEntry .operationArea button {
+		height: 30px; /* 确保按钮高度一致 */
+		width: 90%;
+		padding: 0 -10px;
+		white-space: nowrap;
+		background-color: #007bff;
+		color: white;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+		transform: translateX(0px);
+		transition: 0.3s ease;
+	}
+
+	.albumEntry .operationArea button:hover {
+		background-color: #0056b3;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+		transform: translateX(5px);
+		transition: 0.3s ease;
+	}
+
+	.updateCard.hide {
+		display: none;
+		transition: 1s;
+	}
+
+	.updateCard {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		width: 60vw;
+		height: 60vh;
+		padding: 20px;
+		background-color: white;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+		border-radius: 10px;
+		z-index: 114514;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		transition: 1s;
+	}
+
+	.updateCard .closeButton {
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		width: 30px;
+		height: 30px;
+		border: none;
+		border-radius: 50%;
+		background-color: #dc3545;
+		color: white;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	}
+
+	.updateCard input, .updateCard button {
+		margin: 10px 0;
+		padding: 10px;
+		border: 1px solid #ced4da;
+		border-radius: 5px;
+		width: 80%;
+		font-size: 16px;
+	}
+
+	.updateCard button {
+		background-color: #007bff;
+		color: white;
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+	}
+
+	.updateCard button:hover {
+		background-color: #0056b3;
+	}
+
+	
 </style>
 
 </head>  
@@ -141,19 +314,32 @@
 		{{ message }}
 		<button @click="increment">Increment</button>
 	</view>
+	
+	<view class="filterArea">
+		<input type="text" ref="filterInput" id="filterInput" placeholder="请输入关键词">
+		<button id="searchButton" @click="getAlbumTypeList"> 过滤搜索 </button>
+		<button @click="clearInput">清空文本框</button>
+	</view>
 
 	<view class="showAlbum">
 		<view class="title">
 			作品集相册管理
+			<button class="unfoldButton" @click="unfoldAddArea"> 新增相册 </button>
 		</view>
 		
 		<hr class="grey-line">
+		
+		<view :class="['addArea', ifFold ? 'fold' : '' ]">
+			<input id="nameInput" type="text" placeholder="请输入相册名称" />
+			<input id="descriptionInput" type="text" placeholder="请输入相册备注" />
+			<button class="addNewAlbum" @click="addNewAlbum"> 新增相册 </button>
+		</view>
 		
 		<view class="albumEntry" v-for="item in AlbumTypeList">
 			<view class="colorBlock">
 				
 			</view>
-			<view class="info">
+			<view :class="['info', item.deleted? 'deleted' : '' ]">
 				<!-- {{item}} -->
 				<view class="row">
 					<view class="key"> 相册编号: </view>
@@ -168,20 +354,38 @@
 					<view class="value"> {{item.category_description}} </view>
 				</view>
 			</view>
-			<view class="manage" @click="openNewTab(item.id)">
-				管理
+			<view class="operationArea">
+				<button id="manageAlbumButton" @click="openNewTab(item.id)">  管理相册 </button>
+				<button id="deleteORrecoverButton" @click="changeDeletedStatus(item.id, item.deleted)"> {{ item.deleted ? '恢复' : '删除' }} </button>
+				<button id="updateButton" @click="openUpdateCard(item)"> 修改相册名称 </button>
 			</view>
 		</view>
 		
 	</view>
 
-
+	<view :class="['updateCard', isCardHide ? 'hide' : '' ]">
+		<!-- 悬浮窗 -->
+		<view class="closeButton" @click="closeUpdateCard">  X  </view>
+		
+		<view class="row">
+			<view class="key"> 相册编号: </view>
+			<input class="value" id="update_nameInput" type="text" />
+		</view>
+		
+		<view class="row">
+			<view class="key"> 相册描述: </view>
+			<input class="value" id="update_descriptionInput" type="text" />
+		</view>
+		
+		<button class="updateAlbum" @click="updateAlbum"> 修改 </button>
+	</view>
+	
 </div>  
 
 <!-- 引入Vue 3的CDN文件 -->  
- <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
-<!--<script src="../static/vue.js"></script>-->
-<!-- <script src="vue"></script> -->
+<script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+<!-- <script th:src="@{/vue.js}"></script> -->
+<!-- <script src="/vue.js"></script> -->
 
 <script>  
 	const { ref, createApp, onMounted } = Vue;
@@ -196,38 +400,139 @@
 				counter.value++;
 				message.value = `Counter: ${counter.value}`;
 			}
-
-			const getAlbumTypeList = async function(){
-				fetch('work_type/all')
-					.then(response => response.json())
-					.then(data => {
-						console.log("work_type all: ", data);
-						AlbumTypeList.value = data;
-					});
+			
+			const ifFold = ref(true);
+			function unfoldAddArea(){
+				// ifFold.value = false;
+				ifFold.value = !ifFold.value;
 			}
+			
+			const addNewAlbum = async () => {
+				const nameInput = document.getElementById('nameInput').value;
+				const descriptionInput = document.getElementById('descriptionInput').value;
+
+				const formData = new FormData();
+				formData.append('category_name', nameInput);
+				formData.append('category_description', descriptionInput);
+
+				try {
+					const response = await fetch('/work_type/upload', {method: 'POST',body: formData})
+						.then( ()=>{ getAlbumTypeList() } );
+
+				} catch (error) {
+					console.error("Error submitting form:", error);
+				}
+			};
+			
+			const filterInput = ref(null);
+			const getAlbumTypeList = async function() {
+				console.log("in func 过滤搜索");
+			    fetch('work_type/all')
+			        .then(response => response.json())
+			        .then(data => {
+			            console.log("work_type all: ", data);
+						console.log("filter input: ", filterInput);
+						// const filterText = filterInput.value.value.trim().toLowerCase(); // 获取输入框的值并去除首尾空格，并转换为小写
+						const filterText = document.getElementById('filterInput').value.trim().toLowerCase();
+			
+			            if (filterText.length === 0) {
+			                // 如果文本框没有内容，直接使用所有的数据
+			                AlbumTypeList.value = data;
+			            } else {
+			                // 如果文本框有内容，则根据关键词筛选数据
+			                const filteredData = data.filter(item => {
+			                    // 遍历所有的值，检查是否有子串包含关键词
+			                    for (let key in item) {
+			                        if (typeof item[key] === 'string' && item[key].toLowerCase().includes(filterText)) {
+			                            return true; // 包含关键词，保留该项
+			                        }
+			                    }
+			                    return false; // 不包含关键词，过滤掉该项
+			                });
+			                AlbumTypeList.value = filteredData;
+			            }
+						
+			        });
+			}
+			
+			
+			// 定义清空文本框内容的方法
+			const clearInput = () => {
+				filterInput.value.value = ''; // 将文本框的值设置为空字符串
+			};
+
 			
 			const openNewTab = function(id){
 				url = `/manageAlbum/${id}`;
 				window.open(url, '_blank');
 			}
-
+			
+			const changeDeletedStatus = async function(id, deleted){
+				if (deleted){
+					fetch(`work_type/recover/${id}`,{method:'PUT'}).then( ()=>{getAlbumTypeList()} );
+				} else {
+					fetch(`work_type/${id}`, {method:"DELETE"}).then( ()=>{getAlbumTypeList()} );
+				}
+			}
+			
+			const isCardHide = ref(true);
+			const oldAlbumObj = ref( AlbumTypeList.value[0] );
+			const openUpdateCard  = function(item){
+				isCardHide.value = false;
+				console.log("openUpdate: item: "); console.log(item);
+				document.getElementById('update_nameInput').value = item.category_name;
+				document.getElementById('update_descriptionInput').value = item.category_description;
+				
+				oldAlbumObj.value = item;
+			}
+			
+			const closeUpdateCard = function(){
+				isCardHide.value = true;
+			}
+			
+			const updateAlbum = async function(){
+				const nameInput = document.getElementById('update_nameInput').value;
+				const descriptionInput = document.getElementById('update_nameInput').value;
+				
+				const data = {
+					category_name: nameInput,
+					category_description: descriptionInput
+				}
+				const url = 'work_type/update/' + oldAlbumObj.value.id;
+				
+				try {
+					const response = await fetch( url, {
+						method: 'PUT', 
+						body: JSON.stringify(data),
+						headers: { 'Content-Type': 'application/json'}
+					})
+						.then( ()=>{ getAlbumTypeList(); openUpdateCard(); } );
+				
+				} catch (error) {
+					console.error("Error submitting form:", error);
+				}
+			}
+			
 			// 在页面加载时调用getAlbumTypeList函数
 			onMounted(()=>{
 				getAlbumTypeList();
 			});
 
 			return {
-				message,
-				increment,
-				AlbumTypeList,
-				openNewTab
+				message, increment,
+				ifFold, unfoldAddArea,
+				addNewAlbum, changeDeletedStatus,
+				isCardHide, oldAlbumObj, openUpdateCard, closeUpdateCard, updateAlbum,
+				AlbumTypeList, getAlbumTypeList, openNewTab
 			};
 		}
 	});
 
 app.mount('#app');
 
-</script>  
+</script> 
+
+
 
 </body>  
 </html>
