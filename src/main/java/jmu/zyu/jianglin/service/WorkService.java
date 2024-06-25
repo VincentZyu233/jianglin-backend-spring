@@ -10,6 +10,8 @@ public interface WorkService {
 
     Work getWorkById(Long id);
 
+    List<Work> getWorkByTypeId(Long id);
+
     String getWorkImagePathById(Long id);
 
     List<Work> getWorkList();

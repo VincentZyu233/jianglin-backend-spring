@@ -4,31 +4,238 @@
     <meta charset="UTF-8">  
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <title>Vue 3 Local File Example</title>  
-<style lang="scss">
-    body, html {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        font-family: Arial, Helvetica, sans-serif;
-        background-color: #f0f0f0;
-    }
-    
-    .app {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    
- 
-		
-    }
+	<style lang="scss">
+	body, html {
+		margin: 0;
+		padding: 0;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-family: Arial, Helvetica, sans-serif;
+		background-color: #f0f2f5;
+	}
 
-</style>
+	.app {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding: 20px;
+	}
+
+	.thisAlbum {
+		width: 90%;
+		max-width: 1200px;
+		background-color: #fff;
+		border-radius: 12px;
+		box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+		padding: 20px;
+		
+		.title {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 20px;
+			font-size: 28px;
+			color: #0056b3;
+		}
+	}
+
+	.grey-line {
+		border: 1px solid #dee2e6;
+		margin-bottom: 20px;
+	}
+
+	.addArea {
+	    width: calc(100%-40px);
+	    padding: 20px;
+	    background-color: #fff;
+	    border-radius: 12px;
+	    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+	    margin-bottom: 20px;
+	    display: flex;
+	    flex-direction: column;
+	    align-items: center;
+	    background-color: #f9f9f9;
+	}
+	
+	.operationButtonBox {
+	    width: 100%;
+	    display: flex;
+	    justify-content: space-between;
+	    align-items: center;
+	    margin-bottom: 20px;
+	}
+	
+	.operationButtonBox input[type="file"] {
+	    width: calc(100% - 100px);
+	    margin-right: 10px;
+	    padding: 10px;
+	    border: 1px solid #0056b3;
+	    border-radius: 6px;
+	    cursor: pointer;
+	    transition: border-color 0.3s ease;
+	}
+	
+	.operationButtonBox input[type="file"]:hover {
+	    border-color: #0056b3;
+	}
+	
+	.operationButtonBox button {
+	    background-color: #0056b3;
+		width: 100px;
+	    color: #fff;
+	    border: none;
+	    border-radius: 6px;
+	    padding: 10px 20px;
+	    cursor: pointer;
+	    transition: background-color 0.3s ease;
+	}
+	
+	.operationButtonBox button:hover {
+	    background-color: #0056b3;
+	}
+	
+	.uploadFilesListBox {
+	    width: 100%;
+	    min-height: 100px;
+	    background-color: #eef2f7;
+	    border-radius: 8px;
+	    padding: 20px;
+	    box-sizing: border-box;
+	    display: flex;
+	    flex-direction: column;
+	    gap: 20px;
+		
+		.uploadProgressText {
+		  font-size: 16px;
+		  font-weight: bold;
+		  color: #333;
+		  text-align: center;
+		  margin-bottom: 20px; /* 可根据需要调整间距 */
+		  padding: 10px; /* 可根据需要调整内边距 */
+		  background-color: #f0f0f0; /* 可根据需要调整背景色 */
+		  border: 1px solid #ccc; /* 可根据需要调整边框样式 */
+		  border-radius: 5px; /* 可根据需要调整边框圆角 */
+		}
+		
+		.FileItemRow:hover {
+		    transform: scale(1.02);
+		    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+		}
+		
+		.FileItemRow {
+		    display: flex;
+		    align-items: center;
+		    background-color: #fff;
+		    border-radius: 8px;
+		    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+		    padding: 20px;
+		    transition: transform 0.3s ease, box-shadow 0.3s ease;
+			
+			.deleteFileObjButton{
+				height: 50px;
+				width: 50px;
+				border-radius: 25px;
+				background-color: red;
+				color: white;
+				margin-right: 10px;
+				
+				transition: 0.6s;
+			}
+			
+			.deleteFileObjButton:hover{
+				transform: scale(1.2);
+				box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+				
+				transition: 0.6s;
+			}
+			
+			
+			.imagePreview {
+			    width: 100px;
+			    height: 100px;
+			    border-radius: 8px;
+				box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+			    margin: 10px;
+			    object-fit: cover;
+			}
+			
+			.info{
+				display: flex;
+				flex-direction: column;
+				align-items: left;
+			}
+
+			.attribute{
+				display: flex;
+			    margin-top: 10px;
+			    font-size: 16px;
+			    color: #333;
+				
+				.key{
+					font-weight: bold;
+				}
+				.value{
+					margin-left: 10px;
+				}
+			}
+
+		}
+		
+	}
+	
+
+	.grid-container {
+		display: grid;
+		grid-template-columns: repeat(5, 1fr);
+		gap: 20px;
+		width: 100%;
+		box-sizing: border-box;
+		margin-top: 20px;
+	}
+
+	.grid-item:hover {
+		transform: scale(1.03);
+		box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+	}
+	
+	.grid-item {
+		position: relative;
+		height: 25vh;
+		overflow: hidden;
+		border-radius: 12px;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+		
+		.pic{
+			width: 100%;
+			height: 100%;
+			object-fit: contain;
+			border-radius: 12px;
+			transition: transform 0.3s ease;
+		}
+		
+		.pic_id, .pic_name {
+			position: absolute;
+			bottom: 10px;
+			left: 10px;
+			background-color: rgba(0, 0, 0, 0.6);
+			color: #fff;
+			padding: 5px 10px;
+			border-radius: 4px;
+			font-size: 14px;
+		}
+		
+		.pic_name{
+			bottom: 40px;
+		}
+	}
+	
+	</style>
 
 </head>  
 <body>  
@@ -36,7 +243,56 @@
 <!-- Vue应用的挂载点 -->  
 <div class="app" id="app">  
 
-	qwq
+	<view class="thisAlbum">
+		<view class="title">
+			相册照片：
+		</view>
+		
+		<hr class="grey-line">
+		
+		<view class="addArea">
+			<view class="operationButtonBox">
+				<input type="file" id="fileInput" placeholder="点此选择图片(可以多张)" @change="handleFileChange" multiple accept="image/*">
+				<button id="confirmButtonn" @click="onClickUpload"> 确认上传 </button>
+			</view>
+			
+				
+			<view class="uploadFilesListBox" :key="uploadFilesListBoxKey">
+				<!-- {{x}} -->
+				<p class="uploadProgressText"> {{ uploadProgress }} </p>
+				<view class="FileItemRow" v-for="(item, index) in tobeUploadFilesList" :key="index">
+					<!-- {{item}} -->
+					
+					<button class="deleteFileObjButton" @click="deleteFileObj(index)"> 删除 </button>
+					
+					<image class="imagePreview" :src="item.url"></image>
+					
+					<view class="imageInfo">
+						<view class="attribute">
+							<view class="key"> 作品名称 </view>
+							<view class="value"> {{item.work_name}} </view>
+						</view>
+						<view class="attribute">
+							<view class="key"> 文件名 </view>
+							<view class="value"> {{item.work_name}} </view>
+						</view>
+					</view>
+
+
+				</view>
+			</view>
+			
+		</view>
+		
+		<view class="grid-container">
+			<view class="grid-item" v-for="item in AlbumData">
+				<image class="pic" :src="item.image_url"></image>
+				<view class="pic_id"> {{item.id}} </view>
+				<view class="pic_name"> {{item.work_name}} </view>
+			</view>
+		</view>
+		
+	</view>
 
 
 </div>  
@@ -46,17 +302,136 @@
 
 <script>  
 	const { ref, createApp, onMounted } = Vue;
-
+	
+	
 	const app = createApp({
 		setup() {
 			
+			const uploadFilesListBoxKey = ref(0);
+			const tobeUploadFilesList = ref([]);
+			const x = ref(0);
+			const handleFileChange = function(e){
+				const selectedFiles = e.target.files;
+				console.log("selected files: "); console.log(selectedFiles);
+				
+				const filesArray = Array.from(selectedFiles);
+				tobeUploadFilesList.value = [];
+				filesArray.forEach( file =>{
+					console.log("file: "); console.log(file);
+					tobeUploadFilesList.value.push(
+						{
+							file: file,
+							work_name: file.name,
+							type_id: type_id.value,
+							url: URL.createObjectURL(file)
+						}
+					)
+				})
+				
+				console.log("tobeUploadFilesList.value: "); console.log(tobeUploadFilesList.value);
+				uploadFilesListBoxKey.value += 1;
+				x.value += 1;
+			}
+			
+			const deleteFileObj = (index) => {
+			      if (index >= 0 && index < tobeUploadFilesList.value.length) {
+			        tobeUploadFilesList.value.splice(index, 1);
+			      }
+			    };
+			
+			const onClickUpload = function(){
+				if ( tobeUploadFilesList.value.length === 0 ){
+					uploadProgress.value = "请选择文件";
+					return;
+				}
+				
+				uploadFileList().then(()=>{
+					tobeUploadFilesList.value = [];
+					getAlbumData();
+				})
+				
+			}
+				
+			const uploadProgress = ref('请选择文件上传'); // 上传进度
+			const uploadFileList = async function(){
+				for ( i=0; i<tobeUploadFilesList.value.length; i++ ){
+					const obj = tobeUploadFilesList.value[i];
+					const formData = new FormData();
+					console.log("obj: "); console.log(obj);
+					formData.append('file', obj.file);
+					formData.append('work_name', obj.work_name);
+					formData.append('type_id', type_id.value);
+					
+					try {
+						await fetch('/work/upload', {
+							method: 'POST',
+							body: formData,
+							headers: { 'X-Requested-With': 'XMLHttpRequest'},
+						})
+							.then( res=>{ return res.json(); } )
+							.then( data=>{
+								uploadProgress.value =`文件上传中 ${i + 1} of ${tobeUploadFilesList.value.length}`;
+								// console.log('Upload successful: data: '); console.log(data);
+							})
+				
+					} catch (error) {
+						console.error('Error:', error);
+					}
+				}
+				
+				uploadProgress.value = "上传完成";
+			}
+			
+			const AlbumData = ref([]);
+			const type_id = ref(0);
+			
+			const getAlbumData = async function(){
+				const hrefUrl = window.location.href;
+				console.log("hrefUrl:", hrefUrl);
+				
+				const url = new URL(hrefUrl);
+				const BASE_URL = `${url.protocol}//${url.host}/`;
+				console.log("base url", BASE_URL); // 输出: http://localhost:8080/
+				
+				if (hrefUrl.lastIndexOf("/") != -1) {
+				  const numberStr = hrefUrl.substring(hrefUrl.lastIndexOf("/") + 1);
+				  type_id.value = parseInt(numberStr, 10); // 转换为整数
+				  console.log("type_id.value; is: ", type_id.value);
+				} else {
+				  throw(" 找不到数字");
+				}
+				
+				const targetUrl = `/work/type_id/${type_id.value}`;
+				fetch( targetUrl,{
+					method: "GET"
+				})
+					.then(response => response.json())
+			        .then(data => {
+						console.log("this album data: "); console.log(data);
+						
+						AlbumData.value = [];
+						data.forEach(obj => {
+						  obj["image_url"] = BASE_URL + `work/image/${obj.id}`;
+						  AlbumData.value.push(obj);
+						});
+						
+						console.log("Album data:"); console.log(AlbumData.value);
+					})
+			}
+			
+			
+			onMounted(()=>{
+				getAlbumData();
+			})
+			
 			return {
-
+				uploadProgress, tobeUploadFilesList, x, handleFileChange, deleteFileObj, onClickUpload,
+				AlbumData, getAlbumData
 			};
 		}
 	});
 
-app.mount('#app');
+	app.mount('#app');
 
 </script>  
 

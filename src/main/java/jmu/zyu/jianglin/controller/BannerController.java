@@ -30,13 +30,14 @@ public class BannerController {
     public ResponseEntity<?> uploadFile(
             @RequestPart ("file") MultipartFile file,
             @RequestPart String text
-            ) {
+    ) {
+        System.out.println("in banner controller,uploadFile()");
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body("请选择一个文件进行上传。");
         }
 
         try {
-            String uploadFile = fileService.uploadFile(file, text, true);
+            String uploadFile = fileService.uploadFile(file, text, "banner");
             Banner banner = new Banner(text, uploadFile);
             bannerService.addNewBanner(banner);
             return ResponseEntity.ok(banner);

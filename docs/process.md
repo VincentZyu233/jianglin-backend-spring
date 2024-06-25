@@ -36,6 +36,15 @@ CREATE TABLE work (
   deleted BOOLEAN DEFAULT FALSE;
 );
 
+CREATE TABLE wx_user (
+    open_id VARCHAR(255) PRIMARY KEY,
+    wx_nickname VARCHAR(100),
+    wx_avatar_url VARCHAR(255),
+    wx_gender VARCHAR(100),
+    name VARCHAR(100),
+    phone VARCHAR(20)
+);
+
 
 -- 插入 banner 表数据
 INSERT INTO banner (image_path, text) VALUES 
@@ -53,6 +62,12 @@ INSERT INTO product (name, description, image_path) VALUES
   ('Product 4', 'Description for Product 4', '/path/to/images/product4.gif'),
   ('Product 5', 'Description for Product 5', '/path/to/images/product5.gif');
 
+
+INSERT INTO wx_user (open_id, wx_nickname, wx_avatar_url, wx_gender, name, phone)
+VALUES 
+('openid_123', 'nickname1', 'http://example.com/avatar1.png', 'Male', 'John Doe', '1234567890'),
+('openid_456', 'nickname2', 'http://example.com/avatar2.png', 'Female', 'Jane Smith', '0987654321'),
+('openid_789', 'nickname3', 'http://example.com/avatar3.png', 'Male', 'Sam Brown', '1122334455');
 
 
 

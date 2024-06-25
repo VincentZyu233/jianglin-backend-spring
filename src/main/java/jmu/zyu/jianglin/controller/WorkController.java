@@ -26,20 +26,21 @@ public class WorkController {
     @Autowired
     FileService fileService;
 
-    @PostMapping("/upload")
+    @PostMapping(value="/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseBody
     public ResponseEntity<?> uploadFile(
             @RequestPart("file") MultipartFile file,
-            @RequestPart String workName,
-            @RequestPart Long typeId
+            @RequestPart String work_name,
+            @RequestParam Long type_id
     ) {
-        if (file.isEmpty()) {
+        System.out.println("in work controller,uploadFile()");
+        if (file.isEmpty())
             return ResponseEntity.badRequest().body("请选择一个文件进行上传。");
-        }
 
         try {
-            String uploadFile = fileService.uploadFile(file, workName, true);
-            Work work = new Work(workName, uploadFile, typeId);
+            String file_path = fileService.uploadFile(file, work_name, "work");
+            System.out.println("in work controller,uploadFile(), file_path is " + file_path);
+            Work work = new Work(work_name, file_path, type_id);
             workService.addNewWork(work);
             return ResponseEntity.ok(work);
         } catch (IOException e) {
@@ -54,6 +55,12 @@ public class WorkController {
         return ResponseEntity.ok(workService.getWorkById(id));
     }
 
+    @GetMapping("/type_id/{type_id}")
+    @ResponseBody
+    public ResponseEntity<List<Work>> getWorksByTypeId(@PathVariable Long type_id){
+        return ResponseEntity.ok(workService.getWorkByTypeId(type_id));
+    }
+
     @GetMapping("/image/{id}")
     @ResponseBody
     public ResponseEntity<?> getWorkImageById(@PathVariable Long id) throws IOException {
@@ -66,9 +73,12 @@ public class WorkController {
         return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
     }
 
+
+
     @GetMapping("/all")
     @ResponseBody
     public ResponseEntity<List<Work>> getWorkList() {
+        System.out.println("in work controller, all()");
         return ResponseEntity.ok(workService.getWorkList());
     }
 

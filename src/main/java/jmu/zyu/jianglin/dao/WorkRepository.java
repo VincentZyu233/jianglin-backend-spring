@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface WorkRepository extends JpaRepository<Work, Long> {
 
@@ -21,5 +23,8 @@ public interface WorkRepository extends JpaRepository<Work, Long> {
 
     @Query(value = "SELECT image_path FROM work WHERE id = :id", nativeQuery = true)
     String findImagePathById(Long id);
+
+    @Query(value = "SELECT * from work where type_id = :type_id", nativeQuery = true)
+    List<Work> findWorkByTypeId(Long type_id);
 
 }

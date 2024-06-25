@@ -18,6 +18,7 @@ public class UrlController {
     @GetMapping("/")
     @ResponseBody
     public String index() {
+        System.out.println("at root url");
         return "it works!";
     }
 

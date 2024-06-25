@@ -241,11 +241,16 @@
 	}
 
 	.updateCard.hide {
-		display: none;
-		transition: 1s;
+		z-index: -1;
+		height: 0;
+		opacity: 0;
+		overflow: hidden;
+		filter: blur(10px);
+		transition: 0.5s;
 	}
 
 	.updateCard {
+		z-index: 114514;
 		position: fixed;
 		top: 50%;
 		left: 50%;
@@ -256,12 +261,11 @@
 		background-color: white;
 		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 		border-radius: 10px;
-		z-index: 114514;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		transition: 1s;
+		transition: 0.5s;
 	}
 
 	.updateCard .closeButton {
@@ -346,18 +350,18 @@
 					<view class="value"> {{item.id}} </view>
 				</view>
 				<view class="row">
-					<view class="key"> 分类名称: </view>
+					<view class="key"> 相册名称: </view>
 					<view class="value"> {{item.category_name}} </view>
 				</view>
 				<view class="row">
-					<view class="key"> 分类备注: </view>
+					<view class="key"> 相册描述: </view>
 					<view class="value"> {{item.category_description}} </view>
 				</view>
 			</view>
 			<view class="operationArea">
 				<button id="manageAlbumButton" @click="openNewTab(item.id)">  管理相册 </button>
 				<button id="deleteORrecoverButton" @click="changeDeletedStatus(item.id, item.deleted)"> {{ item.deleted ? '恢复' : '删除' }} </button>
-				<button id="updateButton" @click="openUpdateCard(item)"> 修改相册名称 </button>
+				<button id="updateButton" @click="openUpdateCard(item.id)"> 修改相册名称 </button>
 			</view>
 		</view>
 		
@@ -368,7 +372,7 @@
 		<view class="closeButton" @click="closeUpdateCard">  X  </view>
 		
 		<view class="row">
-			<view class="key"> 相册编号: </view>
+			<view class="key"> 相册名称: </view>
 			<input class="value" id="update_nameInput" type="text" />
 		</view>
 		
@@ -476,14 +480,21 @@
 			}
 			
 			const isCardHide = ref(true);
-			const oldAlbumObj = ref( AlbumTypeList.value[0] );
-			const openUpdateCard  = function(item){
+			const CardObjId = ref(0);
+			const openUpdateCard  = function(id){
 				isCardHide.value = false;
-				console.log("openUpdate: item: "); console.log(item);
-				document.getElementById('update_nameInput').value = item.category_name;
-				document.getElementById('update_descriptionInput').value = item.category_description;
-				
-				oldAlbumObj.value = item;
+				CardObjId.value = id;
+				fetch( `work_type/${id}`,{
+					method: 'GET'
+				})
+					.then(response => response.json())
+			        .then(data => {
+						console.log("this obj data: "); console.log(data);
+						
+						document.getElementById('update_nameInput').value = data.category_name;
+						document.getElementById('update_descriptionInput').value = data.category_description;
+					})
+
 			}
 			
 			const closeUpdateCard = function(){
@@ -498,15 +509,14 @@
 					category_name: nameInput,
 					category_description: descriptionInput
 				}
-				const url = 'work_type/update/' + oldAlbumObj.value.id;
+				const url = 'work_type/update/' + CardObjId.value;
 				
 				try {
 					const response = await fetch( url, {
 						method: 'PUT', 
 						body: JSON.stringify(data),
 						headers: { 'Content-Type': 'application/json'}
-					})
-						.then( ()=>{ getAlbumTypeList(); openUpdateCard(); } );
+					}).then( ()=>{ getAlbumTypeList(); openUpdateCard(CardObjId.value); closeUpdateCard(); } );
 				
 				} catch (error) {
 					console.error("Error submitting form:", error);
@@ -522,13 +532,13 @@
 				message, increment,
 				ifFold, unfoldAddArea,
 				addNewAlbum, changeDeletedStatus,
-				isCardHide, oldAlbumObj, openUpdateCard, closeUpdateCard, updateAlbum,
+				isCardHide, openUpdateCard, closeUpdateCard, updateAlbum,
 				AlbumTypeList, getAlbumTypeList, openNewTab
 			};
 		}
 	});
 
-app.mount('#app');
+	app.mount('#app');
 
 </script> 
 

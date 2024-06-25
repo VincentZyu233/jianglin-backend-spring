@@ -37,7 +37,7 @@ public class ProductController {
         }
 
         try {
-            String uploadFile = fileService.uploadFile(file, name, false);
+            String uploadFile = fileService.uploadFile(file, name, "product");
             return ResponseEntity.ok(productService.addNewProduct(new Product(name, uploadFile, description)));
         } catch (IOException e) {
             return ResponseEntity.internalServerError().body("上传失败。" + e.getMessage());

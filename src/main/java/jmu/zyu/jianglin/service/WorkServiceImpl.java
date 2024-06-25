@@ -20,6 +20,9 @@ public class WorkServiceImpl implements WorkService{
     }
 
     @Override
+    public List<Work> getWorkByTypeId(Long id) { return workRepository.findWorkByTypeId(id); }
+
+    @Override
     public String getWorkImagePathById(Long id) {
         return workRepository.findImagePathById(id);
     }

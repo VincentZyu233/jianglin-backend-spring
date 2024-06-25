@@ -24,17 +24,21 @@ public class FileService {
     private final String baseDir = "./files";
     private final static String BANNER = "/banner";
     private final static String PRODUCT = "/product";
+    private final static String WORK = "/work";
 
-    public String uploadFile(MultipartFile file, String text, boolean banner) throws IOException {
-        String folderName = banner ? BANNER : PRODUCT;
+    public String uploadFile(MultipartFile file, String text, String type) throws IOException {
+        String folderName;
+        if ( type.equals("banner") ) folderName = BANNER;
+        else if ( type.equals("product") ) folderName = PRODUCT;
+        else if ( type.equals("work") ) folderName = WORK;
+        else throw new IllegalArgumentException("illegal entity type(folder name)");
 
         // 构建目标文件夹路径
         Path uploadDir = Paths.get(baseDir,  "/", folderName);
         File folderPath = new File(uploadDir.toUri());
 
-        if (!folderPath.exists()) {
+        if (!folderPath.exists())
             folderPath.mkdirs();  // 如果目录不存在，创建目录
-        }
 
         // 确定文件名
         String finalFileName = text + "_" + file.getOriginalFilename();

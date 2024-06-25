@@ -15,6 +15,7 @@ public class UserService {
     }
 
     public void login(HttpSession session, String username) {
+
         session.setAttribute(USER_SESSION_KEY, username);
     }
 
