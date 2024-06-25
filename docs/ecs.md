@@ -1,5 +1,6 @@
 ```shell
 ssh root@120.55.113.175
+http://120.55.113.175:8080/login
 
 scp D:\AAAstuffsAAA\AAAqwqAAA\111qwq-projects-stuffs111\zhaixiang-jianglin\jianglin5\backend_spring\jianglin\target\jianglin-0.0.1-SNAPSHOT.jar root@120.55.113.175:/data
 
@@ -21,31 +22,34 @@ git merge origin/main
 git pull
 
 sudo cp /data/jar-repo/jianglin.service /etc/systemd/system/
-sudo cp /data/jar-repo/jianglin-0.0.8-SNAPSHOT.jar /etc/systemd/system/
+sudo cp /data/jar-repo/jianglin-0.0.9-SNAPSHOT.jar /etc/systemd/system/
+
+sudo rm -rf /etc/systemd/system/jianglin-0.0.8-SNAPSHOT.jar
+
 
 sudo vim /etc/systemd/system/jianglin.service
 
-sudo rm -rf /etc/systemd/system/jianglin-0.0.6-SNAPSHOT.jar
-
 ls -l /etc/systemd/system/jianglin.service
-ls -l /etc/systemd/system/jianglin-0.0.6-SNAPSHOT.jar
+ls -l /etc/systemd/system/jianglin-0.0.9-SNAPSHOT.jar
 
 sudo systemctl daemon-reload
-sudo systemctl start jianglin
+sudo systemctl restart jianglin
 sudo systemctl enable jianglin
 
 sudo journalctl -u jianglin --since "1 minutes ago" -f
 sudo journalctl -u jianglin --since "5 minutes ago" -f
 
-sudo systemctl start mysql
-sudo systemctl restart jianglin
+sudo systemctl restart mysql
 sudo systemctl status mysql
+
+mysql -u root -p
+alter user 'root'@'localhost' identified with mysql_native_password by 'diding2014';
+
 
 sudo find /etc/mysql/ -name "mysqld.cnf"
 sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf
 sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf
 
-mysql -u root -p
 
 ```
 

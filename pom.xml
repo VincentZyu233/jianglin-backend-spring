@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>jmu.zyu</groupId>
 	<artifactId>jianglin</artifactId>
-	<version>0.0.8-SNAPSHOT</version>
+	<version>0.0.10-SNAPSHOT</version>
 	<name>jianglin</name>
 	<description>jianglin backend</description>
 	<properties>

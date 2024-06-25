@@ -15,9 +15,11 @@ public class TableInfo {
         this.tableName = tableName;
         this.tableInfo = new ArrayList<>();
 
+//        SELECT * FROM information_schema.columns WHERE table_name = 'banner' AND table_schema = 'jianglin';
+
         String query = "SELECT * FROM information_schema.columns WHERE table_name = ? AND table_schema = 'jianglin' ";
 
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test_spring", "root", "diding2014");
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/jianglin", "root", "diding2014");
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, tableName);
             ResultSet resultSet = preparedStatement.executeQuery();
