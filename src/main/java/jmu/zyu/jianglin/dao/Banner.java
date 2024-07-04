@@ -5,12 +5,10 @@ import jakarta.persistence.*;
 @Entity
 @Table(name="banner")
 public class Banner {
-
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
 
     @Column(name = "text", columnDefinition = "LONGTEXT")
     private String text;

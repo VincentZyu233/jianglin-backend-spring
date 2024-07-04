@@ -1,7 +1,8 @@
-package jmu.zyu.jianglin.service;
+package jmu.zyu.jianglin.serviceimpl;
 
 import jmu.zyu.jianglin.dao.Banner;
-import jmu.zyu.jianglin.dao.BannerRepository;
+import jmu.zyu.jianglin.jparepo.BannerRepository;
+import jmu.zyu.jianglin.service.BannerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

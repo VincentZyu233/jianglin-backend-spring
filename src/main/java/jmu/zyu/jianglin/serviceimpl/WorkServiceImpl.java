@@ -1,14 +1,15 @@
-package jmu.zyu.jianglin.service;
+package jmu.zyu.jianglin.serviceimpl;
 
 import jmu.zyu.jianglin.dao.Work;
-import jmu.zyu.jianglin.dao.WorkRepository;
+import jmu.zyu.jianglin.jparepo.WorkRepository;
+import jmu.zyu.jianglin.service.WorkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class WorkServiceImpl implements WorkService{
+public class WorkServiceImpl implements WorkService {
 
     @Autowired
     private WorkRepository workRepository;
@@ -20,7 +21,7 @@ public class WorkServiceImpl implements WorkService{
     }
 
     @Override
-    public List<Work> getWorkByTypeId(Long id) { return workRepository.findWorkByTypeId(id); }
+    public List<Work> getWorkByTypeId(Long type_id) { return workRepository.findWorkByTypeId(type_id); }
 
     @Override
     public String getWorkImagePathById(Long id) {
@@ -31,7 +32,6 @@ public class WorkServiceImpl implements WorkService{
     public List<Work> getWorkList() {
         return workRepository.findAll();
     }
-
 
 
     @Override
@@ -61,5 +61,10 @@ public class WorkServiceImpl implements WorkService{
         workRepository.save(workInDb);
 
         return workInDb.getId();
+    }
+
+    @Override
+    public Work findAlbumCoverObj(Long type_id) {
+        return workRepository.findAlbumCoverObj(type_id);
     }
 }

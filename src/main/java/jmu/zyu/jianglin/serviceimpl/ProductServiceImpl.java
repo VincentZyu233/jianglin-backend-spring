@@ -1,7 +1,8 @@
-package jmu.zyu.jianglin.service;
+package jmu.zyu.jianglin.serviceimpl;
 
 import jmu.zyu.jianglin.dao.Product;
-import jmu.zyu.jianglin.dao.ProductRepository;
+import jmu.zyu.jianglin.jparepo.ProductRepository;
+import jmu.zyu.jianglin.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Long addNewProduct(Product product) {
+
         return productRepository.save(product).getId();
     }
 

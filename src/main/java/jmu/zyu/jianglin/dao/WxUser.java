@@ -13,11 +13,8 @@ public class WxUser {
     @Column(name="open_id")
     private String open_id;
 
-    @Column(name="wx_nickname")
-    private String wx_nickname;
-
-    @Column(name="wx_avatar_url")
-    private String wx_avatar_url;
+    @Column(name="wx_avatar_path")
+    private String wx_avatar_path;
 
     @Column(name="wx_gender")
     private String wx_gender;
@@ -32,13 +29,12 @@ public class WxUser {
 
     }
 
-    public WxUser(String open_id, String wx_nickname, String wx_avatar_url, String wx_gender) {
+    public WxUser(String open_id, String wx_avatar_path, String wx_gender, String name, String phone) {
         this.open_id = open_id;
-        this.wx_nickname = wx_nickname;
-        this.wx_avatar_url = wx_avatar_url;
+        this.wx_avatar_path = wx_avatar_path;
         this.wx_gender = wx_gender;
-        this.name = "unknown";
-        this.phone = "unknown";
+        this.name = name;
+        this.phone = phone;
     }
 
     public String getOpen_id() {
@@ -49,20 +45,12 @@ public class WxUser {
         this.open_id = open_id;
     }
 
-    public String getWx_nickname() {
-        return wx_nickname;
+    public String getWx_avatar_path() {
+        return wx_avatar_path;
     }
 
-    public void setWx_nickname(String wx_nickname) {
-        this.wx_nickname = wx_nickname;
-    }
-
-    public String getWx_avatar_url() {
-        return wx_avatar_url;
-    }
-
-    public void setWx_avatar_url(String wx_avatar_url) {
-        this.wx_avatar_url = wx_avatar_url;
+    public void setWx_avatar_path(String wx_avatar_path) {
+        this.wx_avatar_path = wx_avatar_path;
     }
 
     public String getWx_gender() {

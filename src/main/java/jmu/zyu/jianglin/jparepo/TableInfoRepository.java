@@ -1,4 +1,4 @@
-package jmu.zyu.jianglin.dao;
+package jmu.zyu.jianglin.jparepo;
 
 import org.springframework.stereotype.Repository;
 

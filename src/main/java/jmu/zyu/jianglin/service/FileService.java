@@ -26,11 +26,14 @@ public class FileService {
     private final static String PRODUCT = "/product";
     private final static String WORK = "/work";
 
+    private final static String WX_AVATAR = "/wx_avatar";
+
     public String uploadFile(MultipartFile file, String text, String type) throws IOException {
         String folderName;
         if ( type.equals("banner") ) folderName = BANNER;
         else if ( type.equals("product") ) folderName = PRODUCT;
         else if ( type.equals("work") ) folderName = WORK;
+        else if ( type.equals("wx_avatar") ) folderName = WX_AVATAR;
         else throw new IllegalArgumentException("illegal entity type(folder name)");
 
         // 构建目标文件夹路径

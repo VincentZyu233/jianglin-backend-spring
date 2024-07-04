@@ -1,8 +1,8 @@
-package jmu.zyu.jianglin.service;
+package jmu.zyu.jianglin.serviceimpl;
 
 import jmu.zyu.jianglin.dao.WorkType;
-import jmu.zyu.jianglin.dao.WorkTypeRepository;
-import org.hibernate.annotations.DialectOverride;
+import jmu.zyu.jianglin.jparepo.WorkTypeRepository;
+import jmu.zyu.jianglin.service.WorkTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -22,15 +22,15 @@ git merge origin/main
 git pull
 
 sudo cp /data/jar-repo/jianglin.service /etc/systemd/system/
-sudo cp /data/jar-repo/jianglin-0.0.9-SNAPSHOT.jar /etc/systemd/system/
+sudo cp /data/jar-repo/jianglin-0.0.13-SNAPSHOT.jar /etc/systemd/system/
 
-sudo rm -rf /etc/systemd/system/jianglin-0.0.8-SNAPSHOT.jar
+sudo rm -rf /etc/systemd/system/jianglin-0.0.12-SNAPSHOT.jar
 
 
 sudo vim /etc/systemd/system/jianglin.service
 
 ls -l /etc/systemd/system/jianglin.service
-ls -l /etc/systemd/system/jianglin-0.0.9-SNAPSHOT.jar
+ls -l /etc/systemd/system/jianglin-0.0.12-SNAPSHOT.jar
 
 sudo systemctl daemon-reload
 sudo systemctl restart jianglin
@@ -59,6 +59,10 @@ FLUSH PRIVILEGES;
 
 SHOW VARIABLES LIKE 'bind_address';
 SHOW VARIABLES LIKE 'port';
+
+select * from wx_user;
+TRUNCATE TABLE wx_user;
+
 
 ```
 

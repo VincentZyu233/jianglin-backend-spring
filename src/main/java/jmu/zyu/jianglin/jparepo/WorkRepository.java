@@ -1,6 +1,7 @@
-package jmu.zyu.jianglin.dao;
+package jmu.zyu.jianglin.jparepo;
 
 import jakarta.transaction.Transactional;
+import jmu.zyu.jianglin.dao.Work;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -26,5 +27,8 @@ public interface WorkRepository extends JpaRepository<Work, Long> {
 
     @Query(value = "SELECT * from work where type_id = :type_id", nativeQuery = true)
     List<Work> findWorkByTypeId(Long type_id);
+
+    @Query(value = "SELECT * from work where type_id = :type_id LIMIT 1", nativeQuery = true)
+    Work findAlbumCoverObj(Long type_id);
 
 }

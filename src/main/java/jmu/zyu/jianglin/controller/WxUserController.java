@@ -3,20 +3,20 @@ package jmu.zyu.jianglin.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jmu.zyu.jianglin.dao.WxUser;
-import jmu.zyu.jianglin.dao.WxUserRepository;
+import jmu.zyu.jianglin.jparepo.WxUserRepository;
+import jmu.zyu.jianglin.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/wx")
@@ -55,6 +55,9 @@ public class WxUserController {
     @Autowired
     WxUserRepository wxUserRepository;
 
+    @Autowired
+    FileService fileService;
+
     @GetMapping("/user/{openid}")
     @ResponseBody
     public ResponseEntity<?> getWxUserByOpenId(@PathVariable String openid){
@@ -91,19 +94,63 @@ public class WxUserController {
         if ( !wxUserRepository.existsById( oldOpenId ))
             return ResponseEntity.badRequest().body("openid" + newWxUserInfo.getOpen_id() + "does not exist");
 
-
         WxUser wxUserInDb = wxUserRepository.findById(oldOpenId)
                 .orElseThrow(() -> new IllegalArgumentException("id " + oldOpenId + " does not exist"));
 
         wxUserInDb.setName( newWxUserInfo.getName() );
         wxUserInDb.setPhone( newWxUserInfo.getPhone() );
         wxUserInDb.setWx_gender( newWxUserInfo.getWx_gender() );
-        wxUserInDb.setWx_nickname(newWxUserInfo.getWx_nickname() );
-        wxUserInDb.setWx_avatar_url(newWxUserInfo.getWx_avatar_url() );
-
+        wxUserInDb.setWx_avatar_path(newWxUserInfo.getWx_avatar_path() );
         return ResponseEntity.ok( wxUserRepository.save(wxUserInDb) );
     }
 
+
+    @PostMapping("/user/upload")
+    @ResponseBody
+    public ResponseEntity<?> uploadWxUser(
+            @RequestPart String open_id,
+            @RequestPart String name,
+            @RequestPart String phone,
+            @RequestPart String wx_gender,
+            @RequestPart ("file") MultipartFile wx_avatar_file //传参的时候 form的key必须叫做file
+    ) {
+        System.out.println("in wxuser controller,uploadWxUser()");
+
+
+        if (wx_avatar_file.isEmpty()) {
+            return ResponseEntity.badRequest().body("wx_avatar_file文件为空");
+        }
+
+        try{
+            String uploadFilePath = fileService.uploadFile(wx_avatar_file, "wx_avatar", "wx_avatar");
+            WxUser wxUser = new WxUser(open_id, uploadFilePath,wx_gender, name, phone);
+            wxUserRepository.save(wxUser);
+            return ResponseEntity.ok(wxUser);
+        } catch ( Exception e ){
+            return ResponseEntity.internalServerError().body("上传失败： " + e.getMessage());
+        }
+
+    }
+
+    @GetMapping("/user/avatar_image/{openid}")
+    @ResponseBody
+    public ResponseEntity<?> getAvatarImageByOpenId(@PathVariable String openid) {
+        System.out.println("qwq1, in getAvatarImageByOpenId(): pathvar openid: " + openid);
+
+        try{
+            byte[] imageBytes = fileService.getImageByteArray(wxUserRepository.findAvatarImagePathByOpenId(openid));
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.IMAGE_JPEG);
+            headers.setContentLength(imageBytes.length);
+
+            // 返回包含图片字节数组的 ResponseEntity
+            return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
+        }catch (Exception e){
+            return ResponseEntity.internalServerError().body("获取用户头像失败， e: " + e.getMessage());
+        }
+
+    }
 
 
 }

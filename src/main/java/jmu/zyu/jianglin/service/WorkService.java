@@ -1,16 +1,14 @@
 package jmu.zyu.jianglin.service;
 
 import jmu.zyu.jianglin.dao.Work;
-import org.springframework.stereotype.Service;
 
-import java.io.Serial;
 import java.util.List;
 
 public interface WorkService {
 
     Work getWorkById(Long id);
 
-    List<Work> getWorkByTypeId(Long id);
+    List<Work> getWorkByTypeId(Long type_id);
 
     String getWorkImagePathById(Long id);
 
@@ -23,6 +21,8 @@ public interface WorkService {
     void recoverWorkById(Long id);
 
     Long updateWorkById(Long oldId, Work newWorkInfo);
+
+    Work findAlbumCoverObj(Long type_id);
 
 
 }

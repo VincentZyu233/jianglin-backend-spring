@@ -1,6 +1,7 @@
-package jmu.zyu.jianglin.dao;
+package jmu.zyu.jianglin.jparepo;
 
 import jakarta.transaction.Transactional;
+import jmu.zyu.jianglin.dao.WorkType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

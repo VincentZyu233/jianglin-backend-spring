@@ -61,6 +61,12 @@ public class WorkController {
         return ResponseEntity.ok(workService.getWorkByTypeId(type_id));
     }
 
+
+    @GetMapping("/cover/{type_id}")
+    public ResponseEntity<Work> getAlbumCoverByTypeId(@PathVariable Long type_id){
+        return ResponseEntity.ok(workService.findAlbumCoverObj(type_id));
+    }
+
     @GetMapping("/image/{id}")
     @ResponseBody
     public ResponseEntity<?> getWorkImageById(@PathVariable Long id) throws IOException {

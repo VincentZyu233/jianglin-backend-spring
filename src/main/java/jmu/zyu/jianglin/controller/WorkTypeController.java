@@ -17,6 +17,7 @@ public class WorkTypeController {
     WorkTypeService workTypeService;
 
     @PostMapping("/upload")
+    @ResponseBody
     public ResponseEntity<Long> addNewWorkType(@RequestPart String category_name, @RequestPart String category_description){
         return ResponseEntity.ok(workTypeService.addNewWorkType(new WorkType(category_name, category_description)));
     }
@@ -26,6 +27,7 @@ public class WorkTypeController {
     public ResponseEntity<WorkType> getWorkTypeById(@PathVariable Long id){
         return ResponseEntity.ok(workTypeService.getTypeById(id));
     }
+
 
     @GetMapping("/all")
     @ResponseBody
