@@ -21,7 +21,8 @@ import javax.imageio.ImageIO;
 
 @Service
 public class FileService {
-    private final String baseDir = "./files";
+    private final String baseDir = "./files"; //后续可以自定义修改文件路径，
+    // 比如linux选择data/files,  windows选择d:/files
     private final static String BANNER = "/banner";
     private final static String PRODUCT = "/product";
     private final static String WORK = "/work";

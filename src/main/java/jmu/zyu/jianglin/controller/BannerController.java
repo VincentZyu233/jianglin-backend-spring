@@ -57,7 +57,7 @@ public class BannerController {
     @ResponseBody
     public ResponseEntity<?> getBannerImageById(@PathVariable Long id) throws IOException {
 
-            System.out.println("ovo1 in getBannerImageById(): getBannerImagePathById(id)" + bannerService.getBannerImagePathById(id).toString() );
+//            System.out.println("ovo1 in getBannerImageById(): getBannerImagePathById(id)" + bannerService.getBannerImagePathById(id).toString() );
 
             byte[] imageBytes = fileService.getImageByteArray(bannerService.getBannerImagePathById(id));
 
@@ -73,6 +73,7 @@ public class BannerController {
     @GetMapping("/all")
     @ResponseBody
     public ResponseEntity<List<Banner>> getBannerList(){
+
         return ResponseEntity.ok(bannerService.getBannerList());
     }
 
