@@ -10,12 +10,12 @@ public interface ClothingRepository extends JpaRepository<Clothing, Long> {
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE clothing SET deleted = true WHERE id = :id", nativeQuery = true)
+    @Query(value = "UPDATE clothing SET deleted = true WHERE clothing_id = :id", nativeQuery = true)
     void deleteById(Long id);
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE clothing SET deleted = false WHERE id = :id", nativeQuery = true)
+    @Query(value = "UPDATE clothing SET deleted = false WHERE clothing_id = :id", nativeQuery = true)
     void recoverById(Long id);
 
 }

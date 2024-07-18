@@ -21,6 +21,8 @@ public interface ClothingService {
     void recoverClothingById(Long id); // 根据id恢复被删除的服装对象
 
     Long updateClothingById(Long oldId, Clothing newClothingInfo); // 根据id更新服装对象信息，返回更新对象的id
+
+    public boolean existsById(Long id);
 }
 
 

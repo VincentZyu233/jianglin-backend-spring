@@ -59,5 +59,10 @@ public class ClothingServiceImpl implements ClothingService {
 
         return clothingInDb.getClothing_id();
     }
+
+    @Override
+    public boolean existsById(Long id) {
+        return clothingRepository.existsById(id);
+    }
 }
 

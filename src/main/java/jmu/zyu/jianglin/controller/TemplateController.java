@@ -7,19 +7,30 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
+
 @Controller
-public class UrlController {
+@RequestMapping("/template")
+public class TemplateController {
 
     @Autowired
     UserService userService;
 
+    @GetMapping("")
+    @ResponseBody
+    public String index_noSlash() {
+        System.out.println("at root url");
+        return "template root without slash!";
+    }
+
     @GetMapping("/")
     @ResponseBody
-    public String index() {
+    public String index_withSlash() {
         System.out.println("at root url");
-        return "it works!";
+        return "template root wish slash!";
     }
 
     @GetMapping("/login")

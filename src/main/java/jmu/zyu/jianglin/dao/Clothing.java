@@ -17,7 +17,7 @@ public class Clothing {
     private String clothing_description;
 
     @Column(name = "deleted")
-    private Boolean deleted;
+    private Boolean deleted = false;
 
 
     public Clothing() {
@@ -28,6 +28,11 @@ public class Clothing {
         this.clothing_name = clothing_name;
         this.clothing_description = clothing_description;
         this.deleted = deleted;
+    }
+
+    public Clothing(String clothing_name, String clothing_description) {
+        this.clothing_name = clothing_name;
+        this.clothing_description = clothing_description;
     }
 
     public Long getClothing_id() {

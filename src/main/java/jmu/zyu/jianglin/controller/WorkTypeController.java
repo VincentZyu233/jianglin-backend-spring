@@ -22,6 +22,13 @@ public class WorkTypeController {
         return ResponseEntity.ok(workTypeService.addNewWorkType(new WorkType(category_name, category_description)));
     }
 
+    @PostMapping()
+    @ResponseBody
+    public ResponseEntity<Long> addNewWorkType(@RequestBody WorkType workType){
+        return ResponseEntity.ok(workTypeService.addNewWorkType(workType));
+    }
+
+
     @GetMapping("/{id}")
     @ResponseBody
     public ResponseEntity<WorkType> getWorkTypeById(@PathVariable Long id){
@@ -35,11 +42,6 @@ public class WorkTypeController {
         return ResponseEntity.ok(workTypeService.getWorkTypeList());
     }
 
-    @PostMapping()
-    @ResponseBody
-    public ResponseEntity<Long> addNewWorkType(@RequestBody WorkType workType){
-        return ResponseEntity.ok(workTypeService.addNewWorkType(workType));
-    }
 
     @DeleteMapping("/{id}")
     @ResponseBody
