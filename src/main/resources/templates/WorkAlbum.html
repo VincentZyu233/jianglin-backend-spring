@@ -390,7 +390,6 @@
 <!-- 引入Vue 3的CDN文件 -->  
 <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
 <!--<script th:src="@{/vue.js}"></script>-->
-
 <!-- <script src="/vue.js"></script> -->
 
 <script>  
@@ -506,7 +505,7 @@
 			
 			const updateAlbum = async function(){
 				const nameInput = document.getElementById('update_nameInput').value;
-				const descriptionInput = document.getElementById('update_nameInput').value;
+				const descriptionInput = document.getElementById('update_descriptionInput').value;
 				
 				const data = {
 					category_name: nameInput,
@@ -522,7 +521,7 @@
 					}).then( ()=>{ getAlbumTypeList(); openUpdateCard(CardObjId.value); closeUpdateCard(); } );
 				
 				} catch (error) {
-					console.error("Error submitting form:", error);
+					console.error("Error submitting form while updating this work album:", error);
 				}
 			}
 			

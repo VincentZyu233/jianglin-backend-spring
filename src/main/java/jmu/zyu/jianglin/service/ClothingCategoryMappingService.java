@@ -11,14 +11,20 @@ public interface ClothingCategoryMappingService {
 
     List<ClothingCategoryMapping> getAllClothingCategoryMappings(); // 获取所有服装分类映射对象的列表
 
+    List<ClothingCategoryMapping> findAllByClothingId(Long clothing_id);
+
     Long addNewClothingCategoryMapping(ClothingCategoryMapping mapping); // 新增服装分类映射对象，返回新增对象的id
 
     void deleteClothingCategoryMappingById(Long id); // 根据id删除服装分类映射对象
 
     void recoverClothingCategoryMappingById(Long id); // 根据id恢复被删除的服装分类映射对象
 
+    void purgeClothingCategoryMappingById(Long id);
+
     Long updateClothingCategoryMappingById(Long oldId, ClothingCategoryMapping newMappingInfo); // 根据id更新服装分类映射对象信息，返回更新对象的id
 
-    public boolean existsById(Long id);
+    boolean existsById(Long id);
+
+    boolean existsByClothingId(Long clothing_id);
 
 }

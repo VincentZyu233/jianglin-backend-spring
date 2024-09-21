@@ -5,28 +5,280 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>manage Clothing</title>
     
+	<style>
+		
+		* {
+		    margin: 0;
+		    padding: 0;
+		    box-sizing: border-box;
+		}
+		
+		body {
+		    font-family: 'Arial', sans-serif;
+		    background-color: #f4f7f6;
+		    color: #333;
+		}
+		
+		.container {
+		    width: 80%;
+		    max-width: 900px;
+		    margin: 40px auto;
+		    padding: 20px;
+		    background-color: #fff;
+		    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+		    border-radius: 8px;
+		}
+		
+		.title {
+		    font-size: 28px;
+		    text-align: center;
+		    margin-bottom: 20px;
+		    color: #333;
+		}
+		
+		.basicInfo-section {
+		    padding: 20px;
+		    background-color: #f9fafb;
+		    border-radius: 8px;
+		    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+		}
+		
+		.section-title {
+		    font-size: 22px;
+		    margin-bottom: 15px;
+		    color: #444;
+		    text-align: center;
+		}
+		
+		.box {
+		    padding: 15px;
+		    background-color: #ffffff;
+		    border: 1px solid #ddd;
+		    border-radius: 8px;
+		    margin-bottom: 20px;
+		}
+		
+		.row {
+		    display: flex;
+		    justify-content: space-between;
+		    align-items: center;
+		    margin-bottom: 15px;
+		}
+		
+		.key {
+		    flex: 1;
+		    font-weight: bold;
+		    color: #666;
+		}
+		
+		.value {
+		    flex: 2;
+		}
+		
+		.input-field {
+		    width: 100%;
+		    padding: 10px;
+		    border: 1px solid #ddd;
+		    border-radius: 5px;
+		    font-size: 14px;
+		    color: #333;
+		    background-color: #fafafa;
+		    transition: border-color 0.2s;
+		}
+		
+		.input-field:focus {
+		    border-color: #0066cc;
+		    outline: none;
+		}
+		
+		.button-primary {
+		    display: block;
+		    width: 100%;
+		    padding: 10px;
+		    font-size: 16px;
+		    color: #fff;
+		    background-color: #0066cc;
+		    border: none;
+		    border-radius: 5px;
+		    cursor: pointer;
+		    transition: background-color 0.3s;
+		}
+		
+		.button-primary:hover {
+		    background-color: #004999;
+		}
+		
+		@media screen and (max-width: 768px) {
+		    .container {
+		        width: 95%;
+		    }
+		
+		    .row {
+		        flex-direction: column;
+		        align-items: flex-start;
+		    }
+		
+		    .key, .value {
+		        width: 100%;
+		        margin-bottom: 10px;
+		    }
+		
+		    .input-field {
+		        width: 100%;
+		    }
+		}
+		
+		.grey-line {
+			margin-top: 10px; margin-bottom: 10px;
+			width: 90%;
+			border: 1px solid #dee2e6;
+			margin-bottom: 20px;
+		}
+		
+		.tag-section {
+		    padding: 20px;
+		    background-color: #f9fafb;
+		    border-radius: 8px;
+		    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+		    margin-bottom: 20px;
+		}
+		
+		.addTag-Area {
+		    display: flex;
+		    justify-content: space-between;
+		    margin-bottom: 15px;
+		}
+		
+		.tagInput {
+		    flex: 1;
+		    padding: 10px;
+		    border: 1px solid #ddd;
+		    border-radius: 5px;
+		    font-size: 14px;
+		    transition: border-color 0.3s, transform 0.3s;
+		}
+		
+		.tagInput:focus {
+		    border-color: #0066cc;
+		    transform: scale(1.02);
+		    outline: none;
+		}
+		
+		.addButton {
+		    padding: 10px 15px;
+		    font-size: 16px;
+		    color: #fff;
+		    background-color: #28a745;
+		    border: none;
+		    border-radius: 5px;
+		    cursor: pointer;
+		    transition: background-color 0.3s, transform 0.3s;
+		}
+		
+		.addButton:hover {
+		    background-color: #218838;
+		    transform: scale(1.05);
+		}
+		
+		.tagList-Area {
+		    animation: fadeIn 0.5s ease-in-out;
+		}
+		
+		.tagList-Area ul {
+		    list-style-type: none;
+		    padding: 0;
+		}
+		
+		.tagList-Area li {
+		    display: flex;
+		    justify-content: space-between;
+		    align-items: center;
+		    background-color: #ffffff;
+		    padding: 10px;
+		    margin-bottom: 10px;
+		    border-radius: 5px;
+		    transition: background-color 0.3s, transform 0.3s;
+		}
+		
+		.tagList-Area li:hover {
+		    background-color: #f0f0f0;
+		    transform: translateY(-2px);
+		}
+		
+		.tagList-Area button {
+		    background-color: transparent;
+		    border: none;
+		    color: #dc3545;
+		    font-size: 18px;
+		    cursor: pointer;
+		    transition: color 0.3s;
+		}
+		
+		.tagList-Area button:hover {
+		    color: #c82333;
+		}
+		
+		@keyframes fadeIn {
+		    from {
+		        opacity: 0;
+		    }
+		    to {
+		        opacity: 1;
+		    }
+		}
+
+		
+	</style>
 </head>
 <body>
 
+
 <div id="app" class="container">
+    
+    <h1 class="title">管理服装信息</h1>
+    
+    <div class="basicInfo-section">
+        <h2 class="section-title">基本信息</h2>
+        <div class="box">
+            <div class="row">
+                <div class="key">服装ID</div>
+                <div class="value">{{ clothingObj.clothing_id }}</div>
+            </div>
+            <div class="row">
+                <div class="key">服装名称</div>
+                <div class="value">
+                    <input id="nameInput" type="text" class="input-field" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="key">服装描述</div>
+                <div class="value">
+                    <input id="descriptionInput" type="text" class="input-field" />
+                </div>
+            </div>
+        </div>
+        <button class="button-primary" @click="onClickChangeBasicInfoButton">修改基本信息</button>
+    </div>
 	
-	<h1 class="title"> 管理服装信息 </h1>
+	<hr class="grey-line">
 	
-	<h2 class="basicInfo"> 基本信息 </h2>
-	<view class="row">
-		<view class="key"> 服装id </view>
-		<view class="value"></view>
-	</view>
-	<view class="row">
-		<view class="key"> 服装名称 </view>
-		<view class="value"></view>
-	</view>
-	<view class="row">
-		<view class="key"> 服装 </view>
-		<view class="value"></view>
-	</view>
-	
-		
+	<div class="tag-section">
+		<h2 class="section-title">Tag标签分类信息</h2>
+	    <div class="addTag-Area">
+	        <input id="tagInput" type="text" class="tagInput" placeholder="输入新tag"/>
+	        <button class="addButton" @click="addTag">添加tag</button>
+	    </div>
+	    <div class="tagList-Area">
+	        <ul>
+	            <li v-for="tag in tagList" :key="tag.category_id">
+	                {{ tag.tag_name }}
+	                <button @click="deleteTag(tag.clothing_category_mapping_id)">×</button>
+	            </li>
+	        </ul>
+	    </div>
+	</div>
+
+    
 </div>
 
 <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
@@ -36,12 +288,148 @@
 	const app = createApp({
 		setup() {
 			
+			const clothing_id = ref(-1);
+			const clothingObj = ref({});
+			
+			const getClothingObj = async ()=>{
+				const url = window.location.pathname; // 获取路径部分
+				// 使用split分割路径，并获取最后一个部分
+				clothing_id.value = url.split('/').pop();
+				console.log("clothing id is: ", clothing_id.value); // 输出：23 
+				
+				fetch(`/clothing/${clothing_id.value}`)
+					.then( res => res.json() )
+					.then( data => {
+						console.log("data of this clothing obj:");
+						console.log(data);
+						clothingObj.value = data;
+						
+						document.getElementById('nameInput').value = clothingObj.value.clothing_name;
+						document.getElementById('descriptionInput').value = clothingObj.value.clothing_description;
+					})
+			}
+			
+			const onClickChangeBasicInfoButton = async () => {
+			    const new_name = document.getElementById('nameInput').value;
+			    const new_description = document.getElementById('descriptionInput').value;
+			
+			    const data = {
+			        clothing_name: new_name,
+			        clothing_description: new_description
+			    }
+			    const url = `/clothing/update/${clothing_id.value}`;
+			
+			    try {
+			        const response = await fetch(url, {
+			            method: 'PUT',
+			            body: JSON.stringify(data),
+			            headers: { 'Content-Type': 'application/json' }
+			        });
+			
+			        if (response.ok) {
+			            // 手动更新 clothingObj 的值
+			            clothingObj.value.clothing_name = new_name;
+			            clothingObj.value.clothing_description = new_description;
+			
+			            // 成功后重新获取数据
+			            await getClothingObj();
+			
+			            // 显示更新后的信息
+			            const alert_str = `修改成功,\n新的服装名称: ${clothingObj.value.clothing_name}\n新的服装描述: ${clothingObj.value.clothing_description}`;
+			            alert(alert_str);
+			        } else {
+			            alert("修改失败，请稍后再试");
+			        }
+			    } catch (err) {
+			        console.error("Error updating this clothing", err);
+			        alert("发生错误，请稍后再试");
+			    }
+			}
+			
+			const tagList = ref([]);
+	
+			const getTags = async () => {
+				console.log("getTags()");
+				// 获取当前 clothing_id 的 tag 列表
+				fetch(`/clothing_tag/find_tags_of/${clothing_id.value}`)
+					.then(res => res.json())
+					.then(data => {
+						tagList.value = data;
+						
+						
+						tagList.value.forEach( (obj)=>{
+							fetch(`/clothing_category/${obj.category_id}`)
+								.then( res_of_tag => res_of_tag.json() )
+								.then( data_of_tag => {
+									obj['tag_name'] = data_of_tag.category_name;
+								})
+						})
+						
+						console.log("tagList value: ");
+						console.log(tagList.value);
+					});
+			};
+			
+			const addTag = async () => {
+				console.log("addTag()");
+				
+				const tagName = document.getElementById('tagInput').value;
+				if (!tagName){
+					alert("请输入tag名称");
+					return;
+				}
+				
+				fetch(`/clothing_category/upload/${tagName}`, {
+					method: 'POST'
+				})
+					.then(res=> res.json())
+					.then(data => {
+						console.log("upload tag name res data: ");
+						console.log(data);
+						
+						const tag_id = data.tag_obj.clothing_category_id;
+						// 调用接口，添加 tag
+						fetch(`/clothing_tag/upload`, {
+							method: 'POST',
+							headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+							body: new URLSearchParams({
+								clothing_id: clothing_id.value,
+								category_id: tag_id, // 你应该调整为对应的 category_id 或处理为通过 tagName 来查找
+							})
+						}).then(res => res.json())
+						  .then(data => {
+							  console.log("新tag添加成功:", data);
+							  tagInput.value = ''; // 清空输入框
+							  getTags(); // 重新获取 tag 列表
+						  });
+					});
+	
+
+			};
+	
+			const deleteTag = async (db_id) => {
+				if (confirm("确定要删除这个tag吗？")) {
+					// 调用删除接口
+					fetch(`/clothing_tag/purge/${db_id}`, {
+						method: 'DELETE'
+					}).then(res => res.json())
+					  .then(data => {
+						  console.log("tag 删除成功:", data);
+						  getTags(); // 重新获取 tag 列表
+					  });
+				}
+			};
+	
 			onMounted(()=>{
+				getClothingObj()
+					.then(()=>{ getTags() })
 			});
 			
 			return {
-
-			}
+				clothingObj, getClothingObj,
+				onClickChangeBasicInfoButton,
+				tagList, addTag, deleteTag,
+			};
 			
 		}
 	});

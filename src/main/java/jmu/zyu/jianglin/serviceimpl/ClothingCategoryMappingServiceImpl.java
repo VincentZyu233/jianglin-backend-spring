@@ -26,6 +26,11 @@ public class ClothingCategoryMappingServiceImpl implements ClothingCategoryMappi
     }
 
     @Override
+    public List<ClothingCategoryMapping> findAllByClothingId(Long clothing_id) {
+        return clothingCategoryMappingRepository.findAllByClothingId(clothing_id);
+    }
+
+    @Override
     public Long addNewClothingCategoryMapping(ClothingCategoryMapping mapping) {
         return clothingCategoryMappingRepository.save(mapping).getClothing_category_mapping_id();
     }
@@ -41,6 +46,11 @@ public class ClothingCategoryMappingServiceImpl implements ClothingCategoryMappi
     }
 
     @Override
+    public void purgeClothingCategoryMappingById(Long id) {
+        clothingCategoryMappingRepository.purgeById(id);
+    }
+
+    @Override
     public Long updateClothingCategoryMappingById(Long oldId, ClothingCategoryMapping newMappingInfo) {
         ClothingCategoryMapping mappingInDb = clothingCategoryMappingRepository.findById(oldId)
                 .orElseThrow(() -> new IllegalArgumentException("id " + oldId + " does not exist"));
@@ -51,5 +61,15 @@ public class ClothingCategoryMappingServiceImpl implements ClothingCategoryMappi
         clothingCategoryMappingRepository.save(mappingInDb);
 
         return mappingInDb.getClothing_category_mapping_id();
+    }
+
+    @Override
+    public boolean existsById(Long id) {
+        return clothingCategoryMappingRepository.existsById(id);
+    }
+
+    @Override
+    public boolean existsByClothingId(Long clothing_id) {
+        return clothingCategoryMappingRepository.getExistNumberByClothingId(clothing_id) > 0;
     }
 }

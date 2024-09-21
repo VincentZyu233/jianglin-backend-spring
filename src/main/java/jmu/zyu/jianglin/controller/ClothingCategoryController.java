@@ -7,19 +7,41 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Controller
 @RequestMapping("/clothing_category")
 public class ClothingCategoryController {
     @Autowired
     ClothingCategoryService clothingCategoryService;
 
-    @PostMapping("/upload")
+    @PostMapping("/upload/{category_name}")
     @ResponseBody
-    public ResponseEntity<?> addNewClothingCategory(@RequestPart String category_name){
-        return ResponseEntity.ok(
-            clothingCategoryService.addNewClothingCategory( new ClothingCategory(category_name))
-        );
+    public ResponseEntity<?> addNewClothingCategory(@PathVariable String category_name) {
+        System.out.println("qwq, Path var: category_name:"+ category_name);
+        Map<String, Object> response = new HashMap<>();
+
+        if (clothingCategoryService.existsByName(category_name)) {
+            // 获取已有的 ClothingCategory 对象
+            ClothingCategory obj = clothingCategoryService.getClothingCategoryByName(category_name);
+            response.put("is_new_tag", false);
+            response.put("tag_obj", obj);
+        } else {
+            // 创建一个新的 ClothingCategory 对象
+            ClothingCategory newCategory = new ClothingCategory(category_name);
+            System.out.println("qwq, newTagObj" + newCategory);
+            clothingCategoryService.addNewClothingCategory(newCategory);
+
+            // 获取保存后的对象
+            ClothingCategory savedCategory = clothingCategoryService.getClothingCategoryByName(category_name);
+            response.put("is_new_tag", true);
+            response.put("tag_obj", savedCategory);
+        }
+
+        return ResponseEntity.ok(response);
     }
+
 
     @DeleteMapping("/delete/{id}")
     @ResponseBody

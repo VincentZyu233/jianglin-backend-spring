@@ -21,6 +21,11 @@ public class ClothingCategoryServiceImpl implements ClothingCategoryService {
     }
 
     @Override
+    public ClothingCategory getClothingCategoryByName(String TagName) {
+        return clothingCategoryRepository.findByCategoryName(TagName);
+    }
+
+    @Override
     public List<ClothingCategory> getAllClothingCategories() {
         return clothingCategoryRepository.findAll();
     }
@@ -55,5 +60,10 @@ public class ClothingCategoryServiceImpl implements ClothingCategoryService {
     @Override
     public boolean existsById(Long id) {
         return clothingCategoryRepository.existsById(id);
+    }
+
+    @Override
+    public boolean existsByName(String TagName) {
+        return clothingCategoryRepository.getExistNumberByCategoryName(TagName) > 0;
     }
 }

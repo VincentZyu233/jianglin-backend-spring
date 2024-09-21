@@ -10,11 +10,11 @@ public class ClothingCategory {
     @Column(name = "clothing_category_id")
     private Long clothing_category_id;
 
-    @Column(name = "category_name")
+    @Column(name = "category_name", unique = true)
     private String category_name;
 
     @Column(name = "deleted")
-    private Boolean deleted;
+    private Boolean deleted = false;
 
     public ClothingCategory() {
     }
@@ -51,5 +51,14 @@ public class ClothingCategory {
 
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
+    }
+
+    @Override
+    public String toString() {
+        return "ClothingCategory{" +
+                "clothing_category_id=" + clothing_category_id +
+                ", category_name='" + category_name + '\'' +
+                ", deleted=" + deleted +
+                '}';
     }
 }
