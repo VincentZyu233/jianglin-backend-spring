@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>manage Clothing</title>
+    
+</head>
+<body>
+
+<div id="app" class="container">
+	
+	<h1 class="title"> 管理服装信息 </h1>
+	
+	<h2 class="basicInfo"> 基本信息 </h2>
+	<view class="row">
+		<view class="key"> 服装id </view>
+		<view class="value"></view>
+	</view>
+	<view class="row">
+		<view class="key"> 服装名称 </view>
+		<view class="value"></view>
+	</view>
+	<view class="row">
+		<view class="key"> 服装 </view>
+		<view class="value"></view>
+	</view>
+	
+		
+</div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+<script>
+	const { ref, createApp, onMounted } = Vue;
+	
+	const app = createApp({
+		setup() {
+			
+			onMounted(()=>{
+			});
+			
+			return {
+
+			}
+			
+		}
+	});
+	
+	app.mount('#app');
+	
+</script>
+
+</body>
+</html>

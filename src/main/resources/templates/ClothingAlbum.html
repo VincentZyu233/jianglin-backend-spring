@@ -2,13 +2,455 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clothing List</title>
+    <style lang="scss">
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+		
+		.filterArea {
+		    display: flex;
+		    justify-content: space-between;
+		    align-items: center;
+		    margin-bottom: 20px;
+		    padding: 15px;
+		    background-color: #fff;
+		    border-radius: 8px;
+		    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+		
+		    input[type="text"] {
+		        flex: 1;
+		        padding: 12px 15px;
+		        margin-right: 10px;
+		        border: 2px solid #0056b3;
+		        border-radius: 5px;
+		        font-size: 16px;
+		        transition: border-color 0.3s, box-shadow 0.3s;
+		
+		        &:focus {
+		            border-color: #004494;
+		            box-shadow: 0 0 5px rgba(0, 86, 179, 0.5);
+		            outline: none;
+		        }
+		    }
+		
+		    button {
+		        padding: 12px 20px;
+		        border: none;
+		        border-radius: 5px;
+				margin-right: 10px;
+		        background-color: #0056b3;
+		        color: white;
+		        font-size: 16px;
+		        cursor: pointer;
+		        transition: background-color 0.3s, transform 0.2s;
+		
+		        &:hover {
+		            background-color: #004494;
+		            transform: translateY(-2px);
+		        }
+		
+		        &:focus {
+		            outline: none;
+		            box-shadow: 0 0 5px rgba(0, 86, 179, 0.5);
+		        }
+		    }
+		}
+
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+		
+		.addArea.fold{
+			z-index: -1;
+			height: 0;
+			opacity: 0;
+			filter: blur(10px);
+			
+			transition: 0.5s;
+		}
+		
+		.addArea{
+			/* border: 1px solid red; */
+			z-index: 114514;
+			
+			margin-top: 20px; padding: 10px;
+			width: 100%; height: 200px;
+			border-radius: 10px;
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+			background: white;
+			padding: 20px;
+			max-width: 500px;
+			box-sizing: border-box;
+			
+			display: flex;
+			flex-direction: column;
+			position: relative;
+			align-items: center;
+			justify-content: center;
+			
+			transition: 0.5s;
+			
+			/* 基础阴影 */
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+			transition: box-shadow 0.3s; /* 过渡效果 */
+					
+			&:hover {
+				/* 鼠标悬浮时的阴影 */
+				box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* 加重和变大 */
+			}
+			
+			input[type="text"] {
+			    width: 100%;
+			    padding: 10px;
+			    margin: 10px 0;
+			    border: 1px solid #ddd;
+			    border-radius: 4px;
+			    box-sizing: border-box;
+			    transition: border-color 0.3s;
+			}
+			
+			input[type="text"]:focus {
+			    border-color: #007bff;
+			    outline: none;
+			}
+			
+			.addNewClothingButton {
+			    width: 100%;
+			    padding: 10px;
+			    background-color: #007bff;
+			    color: white;
+			    border: none;
+			    border-radius: 4px;
+			    cursor: pointer;
+			    transition: background-color 0.3s;
+			    box-sizing: border-box;
+			    font-size: 16px;
+			}
+			
+			.addNewClothingButton:hover {
+			    background-color: #007bff;
+			}
+			
+			.addNewClothingButton:active {
+			    background-color: #007bff;
+			}
+		}
+		
+
+		
+		
+        .list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+		
+		.list-item.deleted{
+			color: grey;
+			text-decoration: line-through;
+		}
+		
+		.list-item {
+			/* border: 2px solid blue; */
+			height: auto; /* 高度自适应内容 */
+			display: flex;
+			justify-content: space-between;
+			align-items: center; /* 垂直方向居中 */
+
+			padding: 15px 0;
+			border-bottom: 1px solid #ddd;
+			
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+			transition: box-shadow 0.3s; /* 过渡效果 */
+			transition: transform 0.5s; /* 过渡效果 */
+			
+			&:hover {
+				/* 鼠标悬浮时的阴影 */
+				box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* 加重和变大 */
+				transform: translateX(-5px);
+			}
+			
+			.box{
+				border: 1px solid red;
+				height: 80%;
+			}
+			
+			.left {
+				width: 100px;
+			}
+
+			.mid {
+				width: calc(100% - 250px);
+				display: flex;
+				flex-direction: column; /* 改为纵向排列 */
+				justify-content: flex-start; /* 从上到下排列 */
+				align-items: flex-start; /* 左对齐 */
+
+				.row {
+					margin-bottom: 10px; /* 增加间距 */
+					width: 100%; /* 让每行占满宽度 */
+
+					.key {
+					   font-weight: bold;
+					   margin-right: 5px;
+					}
+
+					.value {
+						color: #555;
+						word-wrap: break-word;
+						overflow-wrap: break-word;
+						white-space: normal; /* 允许文本换行 */
+					}
+				}
+			}
+
+			.right {
+			    width: 100px;
+			    display: flex; /* 使用Flexbox布局 */
+			    flex-direction: column; /* 垂直排列按钮 */
+			    align-items: center; /* 垂直方向居中 */
+			    justify-content: space-between; /* 均分上下间距 */
+			    height: 100%; /* 使右侧区域高度自适应 */
+			
+			    .button {
+			        width: 100%; height: 30px; /* 增加高度 */
+					margin: 10px;
+			        background-color: #0056b3; /* 按钮背景色 */
+			        color: white; /* 字体颜色 */
+			        border: none; /* 无边框 */
+			        border-radius: 5px; /* 圆角 */
+			        cursor: pointer; /* 鼠标指针 */
+			        transition: background-color 0.3s, transform 0.2s; /* 过渡效果 */
+			
+			        &:hover {
+			            background-color: #004494; /* 悬停时的背景色 */
+			            transform: translateX(-2px); /* 悬停时的上移效果 */
+						transform: scale3d(1.25, 1.25, 1.25);
+			        }
+			    }
+			}
+
+		}
+
+        .list-item:last-child {
+            border-bottom: none;
+        }
+        .list-item h2 {
+            margin: 0 0 5px 0;
+            font-size: 18px;
+        }
+        .list-item p {
+            margin: 0;
+            color: #555;
+        }
+		
+
+		
+		
+    </style>
+	
+	<style>
+	    /* 过渡动画 */
+	    .list-enter-active, .list-leave-active {
+	        transition: all 0.5s ease;
+	    }
+	
+	    .list-enter-from {
+	        opacity: 0;
+	        transform: translateX(100px); /* 从右边移入 */
+	    }
+	
+	    .list-leave-to {
+	        opacity: 0;
+	        transform: translateX(100px); /* 离开时往右移出 */
+	    }
+	
+	    .list-enter-to, .list-leave-from {
+	        opacity: 1;
+	        transform: translateX(0);
+	    }
+	</style>
 </head>
 <body>
 
-    nihao clothing
+<div id="app" class="container">
+	
+	<view class="filterArea">
+		<input type="text" id="filterInput" placeholder="请输入关键词">
+		<button id="searchButton" @click="fetchClothingData"> 过滤搜索 </button>
+		<button @click="clearInput">清空文本框</button>
+	</view>
+	
+    <div class="header">
+        <h1> 服装列表 </h1>
+		<button class="unfoldButton" @click="unfoldAddArea"> 新增服装: {{ ifFold ? "展开" : "收起" }} </button>
+    </div>
+	
+	<hr class="grey-line">
+	
+	<view :class="['addArea', ifFold ? 'fold' : '' ]">
+		<input id="nameInput" type="text" placeholder="请输入服装名称" />
+		<input id="descriptionInput" type="text" placeholder="请输入服装描述" />
+		<button class="addNewClothingButton" @click="addNewClothing"> 新增服装 </button>
+	</view>
+	
+	<!-- 使用transition-group包裹渲染列表 -->
+	    <transition-group name="list" tag="ul" class="list">
+	        <li v-for="(item, index) in clothingList" :key="item.clothing_id" 
+			:class="['list-item', item.deleted? 'deleted' : '']"
+			:style="{ transitionDelay: (index * 0.1) + 's' }">
+	            <div class="left box"></div>
+	            <div class="mid box">
+					<view class="row">
+						<view class="key"> 服装编号: </view>
+						<view class="value"> {{item.clothing_id}} </view>
+					</view>
+					<view class="row">
+						<view class="key"> 服装名称: </view>
+						<view class="value"> {{item.clothing_name}} </view>
+					</view>
+					<view class="row">
+						<view class="key"> 服装描述: </view>
+						<view class="value"> {{item.clothing_description}} </view>
+					</view>
+	            </div>
+	            <div class="right box">
+	                <button class="button" id="deleteORrecoverButton" @click="changeDeletedStatus(item.clothing_id, item.deleted)"> {{item.deleted? '恢复' : '删除'}} </button>
+					<button class="button" id='updateButton' @click='updateClothing(item.clothing_id)'> 修改服装信息 </button>
+				</div>
+	        </li>
+	    </transition-group>
+		
+</div>
 
 <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+<script>
+	const { ref, createApp, onMounted } = Vue;
+	
+	const app = createApp({
+		setup() {
+			const clothingList = ref([]);
+			const fetchClothingData = async function(){
+                try {
+                    const response = await fetch('/clothing/all');
+                    const data = await response.json();
+					// console.log("all clothing data: ", data);
+                    clothingList.value = data.reverse();
+					console.log("clothingList.value: ", clothingList.value);
+					
+					const filterText = document.getElementById('filterInput').value.trim().toLowerCase();
+								
+					if (filterText.length === 0) {
+					    // 如果文本框没有内容，直接使用所有的数据
+					    console.log("没有输入关键词， 不过滤");
+					} else {
+						console.log("输入了关键词， 进行一次过滤");
+					    // 如果文本框有内容，则根据关键词筛选数据
+					    const filteredData = clothingList.value.filter(item => {
+					        // 遍历所有的值，检查是否有子串包含关键词
+					        for (let key in item) {
+					            if (typeof item[key] === 'string' && item[key].toLowerCase().includes(filterText)) {
+					                return true; // 包含关键词，保留该项
+					            }
+					        }
+					        return false; // 不包含关键词，过滤掉该项
+					    });
+						clothingList.value = filteredData;
+					}
+                } catch (error) {
+                    console.error('Error fetching clothing data:', error);
+                }
+            }
+			
+			const clearInput = () => {
+				document.getElementById('filterInput').value = '';
+				fetchClothingData();
+			};
+			
+			const ifFold = ref(true);
+			function unfoldAddArea(){
+				// ifFold.value = false;
+				console.log("if fold value:", ifFold.value);
+				ifFold.value = !ifFold.value;
+			}
+			
+			const addNewClothing = async ()=> {
+				const clothing_name = document.getElementById('nameInput').value;
+				const clothing_description = document.getElementById('descriptionInput').value;
+				
+				const formData = new FormData();
+				formData.append('clothing_name', clothing_name);
+				formData.append('clothing_description', clothing_description);
+				
+				try {
+					const response = await fetch('/clothing/upload', {
+						method: 'POST',
+						body: formData,
+					});
+			
+					if (response.ok) {
+						console.log('Clothing added successfully!');
+						// Optionally, refresh the clothing list
+						fetchClothingData();
+					} else {
+						console.error('Failed to add clothing:', response.statusText);
+					}
+				} catch (error) {
+					console.error('Error submitting form:', error);
+				}
+			}
+			
+			const changeDeletedStatus = async function(id, deleted){
+				if (deleted){
+					fetch(`clothing/recover/${id}`,{method:'PUT'}).then( ()=>{fetchClothingData()} );
+				} else {
+					fetch(`clothing/delete/${id}`, {method:"DELETE"}).then( ()=>{fetchClothingData()} );
+				}
+			}
+			
+			const updateClothing = function(clothing_id){
+				url = `/manageClothing/${clothing_id}`;
+				window.open(url, '_blank');
+			}
+						
+			onMounted(()=>{
+				fetchClothingData();
+			});
+			
+			return {
+				clothingList, fetchClothingData, clearInput,
+				ifFold, unfoldAddArea,
+				addNewClothing,
+				changeDeletedStatus,
+			}
+			
+		}
+	});
+	
+	app.mount('#app');
+	
+</script>
 
 </body>
 </html>

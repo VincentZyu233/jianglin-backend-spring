@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
-@RequestMapping("/template")
 public class TemplateController {
 
     @Autowired
@@ -23,15 +22,15 @@ public class TemplateController {
     @ResponseBody
     public String index_noSlash() {
         System.out.println("at root url");
-        return "template root without slash!";
+        return "qwq \n template root without slash!";
     }
 
-    @GetMapping("/")
-    @ResponseBody
-    public String index_withSlash() {
-        System.out.println("at root url");
-        return "template root wish slash!";
-    }
+//    @GetMapping("/")
+//    @ResponseBody
+//    public String index_withSlash() {
+//        System.out.println("at root url");
+//        return "template root wish slash!";
+//    }
 
     @GetMapping("/login")
     public String loginPage(Model model) {
@@ -69,8 +68,13 @@ public class TemplateController {
     @GetMapping("/WorkAlbum")
     public String WorkAlbum() { return "WorkAlbum"; }
 
+    @GetMapping("/ClothingAlbum")
+    public String ClothingAlbum() { return "ClothingAlbum"; }
+
     @GetMapping("/manageAlbum/{typeid}")
     public String manageAlbum(){ return "manageAlbum"; }
 
+    @GetMapping("/manageClothing/{clothing_id}")
+    public String manageClothing(){ return "manageClothing"; }
 
 }

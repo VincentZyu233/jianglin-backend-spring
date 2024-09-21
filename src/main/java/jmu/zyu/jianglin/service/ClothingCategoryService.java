@@ -18,4 +18,6 @@ public interface ClothingCategoryService {
     void recoverClothingCategoryById(Long id); // 根据id恢复被删除的服装分类对象
 
     Long updateClothingCategoryById(Long oldId, ClothingCategory newCategoryInfo); // 根据id更新服装分类对象信息，返回更新对象的id
+
+    boolean existsById(Long id);
 }

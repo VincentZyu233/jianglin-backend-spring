@@ -1,6 +1,6 @@
-<!DOCTYPE html>  
-<html lang="en">  
-<head>  
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
     <meta charset="UTF-8">  
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <title>Vue 3 Local File Example</title>  
@@ -180,6 +180,7 @@
 	}
 
 	.albumEntry .info {
+		border: 1px solid red;
 		width: calc(100% - 100px);
 		padding: 5px 10px;
 		/* white-space: nowrap; */
@@ -320,7 +321,7 @@
 	</view>
 	
 	<view class="filterArea">
-		<input type="text" ref="filterInput" id="filterInput" placeholder="请输入关键词">
+		<input type="text" id="filterInput" placeholder="请输入关键词">
 		<button id="searchButton" @click="getAlbumTypeList"> 过滤搜索 </button>
 		<button @click="clearInput">清空文本框</button>
 	</view>
@@ -388,7 +389,8 @@
 
 <!-- 引入Vue 3的CDN文件 -->  
 <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
-<!-- <script th:src="@{/vue.js}"></script> -->
+<!--<script th:src="@{/vue.js}"></script>-->
+
 <!-- <script src="/vue.js"></script> -->
 
 <script>  
@@ -462,7 +464,8 @@
 			
 			// 定义清空文本框内容的方法
 			const clearInput = () => {
-				filterInput.value.value = ''; // 将文本框的值设置为空字符串
+				document.getElementById('filterInput').value = '';
+				getAlbumTypeList();
 			};
 
 			

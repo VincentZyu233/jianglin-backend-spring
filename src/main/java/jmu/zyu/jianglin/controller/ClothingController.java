@@ -23,22 +23,6 @@ public class ClothingController {
         );
     }
 
-    @GetMapping("/{id}")
-    @ResponseBody
-    public ResponseEntity<Clothing> getClothingById(@PathVariable Long id){
-        return ResponseEntity.ok(
-            clothingService.getClothingById(id)
-        );
-    }
-
-    @GetMapping("/all")
-    @ResponseBody
-    public ResponseEntity<List<Clothing>> getClothingList(){
-        return ResponseEntity.ok(
-                clothingService.getAllClothing()
-        );
-    }
-
     @DeleteMapping("/delete/{id}")
     @ResponseBody
     public ResponseEntity<?> deleteClothingById(@PathVariable Long id){
@@ -68,4 +52,22 @@ public class ClothingController {
                 clothingService.updateClothingById(id, newClothingInfo)
         );
     }
+
+    @GetMapping("/{id}")
+    @ResponseBody
+    public ResponseEntity<Clothing> getClothingById(@PathVariable Long id){
+        return ResponseEntity.ok(
+            clothingService.getClothingById(id)
+        );
+    }
+
+    @GetMapping("/all")
+    @ResponseBody
+    public ResponseEntity<List<Clothing>> getClothingList(){
+        return ResponseEntity.ok(
+            clothingService.getAllClothing()
+        );
+    }
+
+
 }

@@ -51,4 +51,9 @@ public class ClothingCategoryServiceImpl implements ClothingCategoryService {
 
         return categoryInDb.getClothing_category_id();
     }
+
+    @Override
+    public boolean existsById(Long id) {
+        return clothingCategoryRepository.existsById(id);
+    }
 }

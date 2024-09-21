@@ -18,4 +18,7 @@ public interface ClothingCategoryMappingService {
     void recoverClothingCategoryMappingById(Long id); // 根据id恢复被删除的服装分类映射对象
 
     Long updateClothingCategoryMappingById(Long oldId, ClothingCategoryMapping newMappingInfo); // 根据id更新服装分类映射对象信息，返回更新对象的id
+
+    public boolean existsById(Long id);
+
 }

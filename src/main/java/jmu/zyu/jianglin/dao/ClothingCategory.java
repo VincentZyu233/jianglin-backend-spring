@@ -19,6 +19,10 @@ public class ClothingCategory {
     public ClothingCategory() {
     }
 
+    public ClothingCategory(String category_name) {
+        this.category_name = category_name;
+    }
+
     public ClothingCategory(Long clothing_category_id, String category_name, Boolean deleted) {
         this.clothing_category_id = clothing_category_id;
         this.category_name = category_name;
