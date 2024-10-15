@@ -19,6 +19,10 @@ public class ClothingImage {
     public ClothingImage() {
     }
 
+    public ClothingImage(String image_path) {
+        this.image_path = image_path;
+    }
+
     public ClothingImage(Long clothing_image_id, String image_path, Boolean deleted) {
         this.clothing_image_id = clothing_image_id;
         this.image_path = image_path;

@@ -27,6 +27,11 @@ public class ClothingImageMappingServiceImpl implements ClothingImageMappingServ
     }
 
     @Override
+    public List<ClothingImageMapping> getImagesOfThisClothing( Long clothing_id ) {
+        return clothingImageMappingRepository.getImagesOfThisClothing(clothing_id);
+    }
+
+    @Override
     public Long addNewClothingImageMapping(ClothingImageMapping mapping) {
         return clothingImageMappingRepository.save(mapping).getClothing_image_mapping_id();
     }
@@ -53,4 +58,5 @@ public class ClothingImageMappingServiceImpl implements ClothingImageMappingServ
 
         return mappingInDb.getClothing_image_mapping_id();
     }
+
 }

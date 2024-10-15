@@ -32,6 +32,10 @@ public class ClothingCategoryMapping {
     public ClothingCategoryMapping() {
     }
 
+    public ClothingCategoryMapping(Long clothing_id, Long category_id) {
+        this.clothing_id = clothing_id;
+        this.category_id = category_id;
+    }
 
     public Long getClothing_category_mapping_id() {
         return clothing_category_mapping_id;

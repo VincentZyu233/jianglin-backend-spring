@@ -23,4 +23,6 @@ public interface BannerRepository extends JpaRepository<Banner, Long> {
     @Query(value = "SELECT image_path FROM banner WHERE id = :id", nativeQuery = true)
     String findImagePathById(Long id);
 
+
+
 }

@@ -18,4 +18,7 @@ public interface ClothingImageRepository extends JpaRepository<ClothingImage, Lo
     @Query(value = "UPDATE clothing_image SET deleted = false WHERE id = :id", nativeQuery = true)
     void recoverById(Long id);
 
+    @Query(value = "SELECT image_path FROM clothing_image WHERE clothing_image_id = :id", nativeQuery = true)
+    String findImagePathById(Long id);
+
 }

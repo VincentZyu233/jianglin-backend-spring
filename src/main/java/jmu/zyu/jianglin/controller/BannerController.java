@@ -59,7 +59,10 @@ public class BannerController {
 
 //            System.out.println("ovo1 in getBannerImageById(): getBannerImagePathById(id)" + bannerService.getBannerImagePathById(id).toString() );
 
-            byte[] imageBytes = fileService.getImageByteArray(bannerService.getBannerImagePathById(id));
+            byte[] imageBytes =
+                    fileService.getImageByteArray(
+                            bannerService.getBannerImagePathById(id)
+                    );
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.IMAGE_JPEG);

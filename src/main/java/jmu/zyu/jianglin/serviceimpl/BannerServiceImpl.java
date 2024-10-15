@@ -25,7 +25,9 @@ public class BannerServiceImpl implements BannerService {
     }
 
     @Override
-    public String getBannerImagePathById(Long id){ return bannerRepository.findImagePathById(id); }
+    public String getBannerImagePathById(Long id){
+        return bannerRepository.findImagePathById(id);
+    }
 
     @Override
     public Long addNewBanner(Banner banner) {

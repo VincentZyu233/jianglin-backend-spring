@@ -21,6 +21,11 @@ public class ClothingImageServiceImpl implements ClothingImageService {
     }
 
     @Override
+    public String getClothingImagePathById(Long id) {
+        return clothingImageRepository.findImagePathById(id);
+    }
+
+    @Override
     public List<ClothingImage> getAllClothingImages() {
         return clothingImageRepository.findAll();
     }

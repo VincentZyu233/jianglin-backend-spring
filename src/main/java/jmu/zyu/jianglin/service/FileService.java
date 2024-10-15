@@ -27,6 +27,8 @@ public class FileService {
     private final static String PRODUCT = "/product";
     private final static String WORK = "/work";
 
+    private final static String CLOTHING = "/clothing";
+
     private final static String WX_AVATAR = "/wx_avatar";
 
     public String uploadFile(MultipartFile file, String text, String type) throws IOException {
@@ -34,6 +36,7 @@ public class FileService {
         if ( type.equals("banner") ) folderName = BANNER;
         else if ( type.equals("product") ) folderName = PRODUCT;
         else if ( type.equals("work") ) folderName = WORK;
+        else if ( type.equals("clothing") ) folderName = CLOTHING;
         else if ( type.equals("wx_avatar") ) folderName = WX_AVATAR;
         else throw new IllegalArgumentException("illegal entity type(folder name)");
 
@@ -61,8 +64,8 @@ public class FileService {
         // Construct full file path
         Path filePath = Paths.get(fileName);
         System.out.println("ovo2 filePath to uri:" + filePath.toUri());
-        File file = Paths.get(filePath.toUri()).toFile();
-        System.out.println("ovo file:" + file);
+//        File file = Paths.get(filePath.toUri()).toFile();
+//        System.out.println("ovo file:" + file);
 
         byte[] imageBytes = Files.readAllBytes(filePath);
 

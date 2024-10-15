@@ -21,6 +21,7 @@ public class ClothingCategory {
 
     public ClothingCategory(String category_name) {
         this.category_name = category_name;
+        deleted = false;
     }
 
     public ClothingCategory(Long clothing_category_id, String category_name, Boolean deleted) {

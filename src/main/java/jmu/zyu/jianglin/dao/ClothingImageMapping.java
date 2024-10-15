@@ -19,15 +19,12 @@ public class ClothingImageMapping {
     @Column(name = "deleted")
     private Boolean deleted;
 
-    @ManyToOne
-    @JoinColumn(name = "clothing_id", insertable = false, updatable = false)
-    private Clothing clothing;
-
-    @ManyToOne
-    @JoinColumn(name = "image_id", insertable = false, updatable = false)
-    private ClothingImage clothingImage;
-
     public ClothingImageMapping() {
+    }
+
+    public ClothingImageMapping(Long clothing_id, Long image_id) {
+        this.clothing_id = clothing_id;
+        this.image_id = image_id;
     }
 
     public ClothingImageMapping(Long clothing_image_mapping_id, Long clothing_id, Long image_id, Boolean deleted, Clothing clothing, ClothingImage clothingImage) {
@@ -35,8 +32,6 @@ public class ClothingImageMapping {
         this.clothing_id = clothing_id;
         this.image_id = image_id;
         this.deleted = deleted;
-        this.clothing = clothing;
-        this.clothingImage = clothingImage;
     }
 
     public Long getClothing_image_mapping_id() {
@@ -71,19 +66,4 @@ public class ClothingImageMapping {
         this.deleted = deleted;
     }
 
-    public Clothing getClothing() {
-        return clothing;
-    }
-
-    public void setClothing(Clothing clothing) {
-        this.clothing = clothing;
-    }
-
-    public ClothingImage getClothingImage() {
-        return clothingImage;
-    }
-
-    public void setClothingImage(ClothingImage clothingImage) {
-        this.clothingImage = clothingImage;
-    }
 }

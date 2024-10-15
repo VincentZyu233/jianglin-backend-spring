@@ -31,8 +31,13 @@ public class ClothingCategoryServiceImpl implements ClothingCategoryService {
     }
 
     @Override
-    public Long addNewClothingCategory(ClothingCategory clothingCategory) {
-        return clothingCategoryRepository.save(clothingCategory).getClothing_category_id();
+    public Long addNewClothingCategory(String tag_name) {
+        if ( clothingCategoryRepository.getExistNumberByCategoryName(tag_name) > 0 ){
+            ClothingCategory obj = clothingCategoryRepository.findByCategoryName(tag_name);
+            return obj.getClothing_category_id();
+        } else {
+            return clothingCategoryRepository.save( new ClothingCategory(tag_name) ).getClothing_category_id();
+        }
     }
 
     @Override

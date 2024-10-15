@@ -72,4 +72,9 @@ public class ClothingCategoryMappingServiceImpl implements ClothingCategoryMappi
     public boolean existsByClothingId(Long clothing_id) {
         return clothingCategoryMappingRepository.getExistNumberByClothingId(clothing_id) > 0;
     }
+
+    @Override
+    public Long countByClothingIdAndCategoryId(Long clothing_id, Long category_id) {
+        return clothingCategoryMappingRepository.countByClothingIdAndCategoryId(clothing_id, category_id);
+    }
 }

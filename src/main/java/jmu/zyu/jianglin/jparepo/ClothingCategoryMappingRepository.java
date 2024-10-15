@@ -35,5 +35,7 @@ public interface ClothingCategoryMappingRepository extends JpaRepository<Clothin
     @Query(value = "SELECT CASE WHEN COUNT(*) > 0 THEN true ELSE false END FROM clothing_category_mapping WHERE clothing_id = :clothing_id", nativeQuery = true)
     Long getExistNumberByClothingId(@NonNull Long clothing_id);
 
-
+    @Transactional
+    @Query(value = "SELECT COUNT(*) FROM clothing_category_mapping WHERE clothing_id = :clothing_id AND category_id = :category_id", nativeQuery = true)
+    Long countByClothingIdAndCategoryId(@NonNull Long clothing_id, @NonNull Long category_id);
 }

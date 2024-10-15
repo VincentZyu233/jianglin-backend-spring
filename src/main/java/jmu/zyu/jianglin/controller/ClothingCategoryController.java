@@ -29,9 +29,7 @@ public class ClothingCategoryController {
             response.put("tag_obj", obj);
         } else {
             // 创建一个新的 ClothingCategory 对象
-            ClothingCategory newCategory = new ClothingCategory(category_name);
-            System.out.println("qwq, newTagObj" + newCategory);
-            clothingCategoryService.addNewClothingCategory(newCategory);
+            clothingCategoryService.addNewClothingCategory(category_name);
 
             // 获取保存后的对象
             ClothingCategory savedCategory = clothingCategoryService.getClothingCategoryByName(category_name);

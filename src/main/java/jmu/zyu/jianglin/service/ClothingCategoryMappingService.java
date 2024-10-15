@@ -27,4 +27,6 @@ public interface ClothingCategoryMappingService {
 
     boolean existsByClothingId(Long clothing_id);
 
+    Long countByClothingIdAndCategoryId(Long clothing_id, Long category_id);
+
 }

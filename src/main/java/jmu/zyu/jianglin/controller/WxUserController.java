@@ -23,11 +23,20 @@ import java.util.Map;
 public class WxUserController {
 
     private final String URL_code2Session = "https://api.weixin.qq.com/sns/jscode2session";
-    private final String WxAppId = "wxb4d9506522390ec9";
-    private final String WxAppSecret = "b966f88a2d58a7fa8b23130ab52c32f3";
+    // vincentzyu的微信小程序测试号
+//    private final String WxAppId = "wxb4d9506522390ec9";
+//    private final String WxAppSecret = "b966f88a2d58a7fa8b23130ab52c32f3";
+    //----------------------------------------
+
+    // 萍乡七彩童年
+    private final String WxAppId = "wxa345c49510a47006";
+    private final String WxAppSecret = "b392a1753e1e2fcad382456a14e29f03";
+    // ---------------------------------------------------------------------
 
     @GetMapping("/code2session")
-    public ResponseEntity<?> getOpenIdAndSessionKey(@RequestParam String WxCode) throws JsonProcessingException {
+    public ResponseEntity<?> getOpenIdAndSessionKey(
+            @RequestParam String WxCode)
+            throws JsonProcessingException {
         System.out.println("ovo, in getOpenIdAndSessionKey(), WxCode = " + WxCode);
 
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(URL_code2Session)

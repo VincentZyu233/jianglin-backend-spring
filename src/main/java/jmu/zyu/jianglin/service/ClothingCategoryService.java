@@ -13,7 +13,7 @@ public interface ClothingCategoryService {
 
     List<ClothingCategory> getAllClothingCategories(); // 获取所有服装分类对象的列表
 
-    Long addNewClothingCategory(ClothingCategory clothingCategory); // 新增服装分类对象，返回新增对象的id
+    Long addNewClothingCategory(String tag_name); // 新增服装分类对象，返回新增对象的id
 
     void deleteClothingCategoryById(Long id); // 根据id删除服装分类对象
 
